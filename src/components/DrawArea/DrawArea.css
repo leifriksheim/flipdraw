@@ -1,0 +1,21 @@
+.draw-area {
+  position: relative;
+  margin: 0 auto;
+  width: 100vw;
+  height: 50vw;
+  display: block;
+  cursor: url("https://d30y9cdsu7xlg0.cloudfront.net/png/347-200.png"), auto;
+}
+
+.drawing {
+  border: 1px solid #000;
+  cursor: url("https://d30y9cdsu7xlg0.cloudfront.net/png/347-200.png"), auto;
+}
+
+.drawing__path {
+  fill: none;
+  stroke-width: 5px;
+  stroke: black;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
