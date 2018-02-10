@@ -2,6 +2,8 @@ import React from "react";
 import autoBind from 'react-autobind';
 import "./DrawArea.css";
 
+import config from '../../constants/config';
+
 class DrawArea extends React.Component {
   constructor() {
     super();
@@ -72,8 +74,9 @@ class DrawArea extends React.Component {
   relativeCoordinatesForEvent(e) {
     const boundingRect = this.refs.drawArea.getBoundingClientRect();
     const { left, top, width, height } = boundingRect;
-    const deltaX = 1920 / width;
-    const deltaY = 1080 / height;
+    const deltaX = config.CANVAS_WIDTH / width;
+    const deltaY = config.CANVAS_HEIGHT / height;
+
     return {
       x: (e.clientX - left) * deltaX,
       y: (e.clientY - top) * deltaY,
