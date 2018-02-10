@@ -1,4 +1,5 @@
 import React from "react";
+import autoBind from 'react-autobind';
 import "./DrawArea.css";
 
 import Drawing from './Drawing.js';
@@ -6,17 +7,11 @@ import Drawing from './Drawing.js';
 class DrawArea extends React.Component {
   constructor() {
     super();
-
+    autoBind(this);
     this.state = {
       lines: [],
       isDrawing: false,
     };
-
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.handleMouseUp = this.handleMouseUp.bind(this);
-    this.handleShortCuts = this.handleShortCuts.bind(this);
-    this.undoLastPath = this.undoLastPath.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +21,7 @@ class DrawArea extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener("mouseup", this.handleMouseUp);
+    document.removeEventListener("keydown", this.handleShortCuts);
   }
 
   handleMouseDown(mouseEvent) {
@@ -80,18 +76,19 @@ class DrawArea extends React.Component {
     return {
       x: (mouseEvent.clientX - offsetLeft) * 1000/clientWidth,
       y: (mouseEvent.clientY - offsetTop) * 500/clientHeight
-    };
   }
 
   render() {
     return (
-      <div
-        className="draw-area"
-        ref="drawArea"
-        onMouseDown={this.handleMouseDown}
-        onMouseMove={this.handleMouseMove}
-      >
-        <Drawing lines={this.state.lines} />
+      <div className="draw-area-wrapper">
+        <section
+          className="draw-area"
+          ref="drawArea"
+          onMouseDown={this.handleMouseDown}
+          onMouseMove={this.handleMouseMove}
+          >
+          <Drawing lines={this.state.lines} />
+        </section>
       </div>
     );
   }
