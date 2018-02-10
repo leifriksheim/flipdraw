@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import 'sanitize.css/sanitize.css';
 import "./App.css";
 import DrawArea from "./components/DrawArea";
 

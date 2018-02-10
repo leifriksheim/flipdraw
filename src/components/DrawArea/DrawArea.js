@@ -1,29 +1,25 @@
 import React from "react";
+import autoBind from 'react-autobind';
 import "./DrawArea.css";
 
 class DrawArea extends React.Component {
   constructor() {
     super();
-
+    autoBind(this);
     this.state = {
       lines: [],
       isDrawing: false
     };
-
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-    this.handleMouseUp = this.handleMouseUp.bind(this);
-    this.handleShortCuts = this.handleShortCuts.bind(this);
-    this.undoLastPath = this.undoLastPath.bind(this);
   }
 
   componentDidMount() {
     document.addEventListener("mouseup", this.handleMouseUp);
     document.addEventListener("keydown", this.handleShortCuts);
   }
-
+  
   componentWillUnmount() {
     document.removeEventListener("mouseup", this.handleMouseUp);
+    document.removeEventListener("keydown", this.handleShortCuts);
   }
 
   handleMouseDown(mouseEvent) {
@@ -73,23 +69,28 @@ class DrawArea extends React.Component {
     });
   }
 
-  relativeCoordinatesForEvent(mouseEvent) {
+  relativeCoordinatesForEvent(e) {
     const boundingRect = this.refs.drawArea.getBoundingClientRect();
+    const { left, top, width, height } = boundingRect;
+    const deltaX = 1920 / width;
+    const deltaY = 1080 / height;
     return {
-      x: mouseEvent.clientX - boundingRect.left,
-      y: mouseEvent.clientY - boundingRect.top
+      x: (e.clientX - left) * deltaX,
+      y: (e.clientY - top) * deltaY,
     };
   }
 
   render() {
     return (
-      <div
-        className="draw-area"
-        ref="drawArea"
-        onMouseDown={this.handleMouseDown}
-        onMouseMove={this.handleMouseMove}
-      >
-        <Drawing lines={this.state.lines} />
+      <div className="draw-area-wrapper">
+        <section
+          className="draw-area"
+          ref="drawArea"
+          onMouseDown={this.handleMouseDown}
+          onMouseMove={this.handleMouseMove}
+          >
+          <Drawing lines={this.state.lines} />
+        </section>
       </div>
     );
   }
@@ -97,7 +98,7 @@ class DrawArea extends React.Component {
 
 function Drawing({ lines }) {
   return (
-    <svg className="drawing" viewBox="0 0 1000 500" preserveAspectRatio="xMinYMin meet">
+    <svg className="drawing" viewBox="0 0 1920 1080" preserveAspectRatio="xMinYMin meet">
       {lines.map((line, index) => <DrawingLine key={index} line={line} />)}
     </svg>
   );
