@@ -5,11 +5,16 @@
   width: 90vw;
   height: 45vw;
   display: block;
-  cursor: url("https://d30y9cdsu7xlg0.cloudfront.net/png/347-200.png"), auto;
+  z-index: 1;
 }
 
 @media (min-width: 1200px) {
   .draw-area {
+    width: 1000px;
+    height: 500px;
+  }
+
+  .draw-area:after {
     width: 1000px;
     height: 500px;
   }
@@ -20,17 +25,17 @@
   display: block;
   top: 0;
   left: 0;
-  height: 105%;
-  width: 121%;
+  width: 97vw;
+  height: 45vw;
   position: absolute;
   background-image: url('../../assets/head-bg.svg');
+  background-size: cover;
   z-index: -1;
 }
 
 .drawing {
   width: 100%;
   height: 100%;
-  cursor: url("https://d30y9cdsu7xlg0.cloudfront.net/png/347-200.png"), auto;
 }
 
 .drawing__path {
