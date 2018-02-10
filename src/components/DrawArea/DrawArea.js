@@ -1,6 +1,6 @@
 import React from "react";
 import autoBind from 'react-autobind';
-import "./DrawArea.css";
+import "./index.css";
 
 import Drawing from './Drawing.js';
 
