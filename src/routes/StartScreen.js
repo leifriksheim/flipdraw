@@ -1,6 +1,6 @@
 import React from 'react';
 import autoBind from 'react-autobind';
-import { createUser } from '../firebase';
+import { createUser, findDrawing } from '../firebase';
 
 class StartScreen extends React.Component {
   constructor() {
@@ -18,9 +18,14 @@ class StartScreen extends React.Component {
     });
   }
 
-  startGame() {
+  async startGame() {
     const userKey = createUser(this.state.userName);
-    console.log(userKey);
+    const existingDrawing = await findDrawing();
+    if(existingDrawing) {
+      console.log('Start drawing in existing drawing', existingDrawing);
+    } else {
+      console.log('Create totally new drawing here');
+    }
   }
 
   render() {
