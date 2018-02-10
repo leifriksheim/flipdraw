@@ -1,6 +1,7 @@
 import React from "react";
 import autoBind from 'react-autobind';
 import "./index.css";
+import { submitDrawing } from '../../firebase/';
 
 import Drawing from './Drawing.js';
 
@@ -62,6 +63,14 @@ class DrawArea extends React.Component {
     }
   }
 
+  submit() {
+    submitDrawing({
+      drawingId: '123',
+      drawingData: this.state.lines,
+      bodyPart: 'head'
+    })
+  }
+
   undoLastPath() {
     const lines = [...this.state.lines];
     lines.splice(lines.length - 1, 1);
@@ -88,6 +97,7 @@ class DrawArea extends React.Component {
         onMouseMove={this.handleMouseMove}
         >
         <Drawing lines={this.state.lines} />
+        <button className="drawing-submit" onClick={this.submit}>Submit</button>
       </section>
     );
   }

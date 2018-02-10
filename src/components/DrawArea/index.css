@@ -45,3 +45,13 @@
   stroke-linejoin: round;
   stroke-linecap: round;
 }
+
+.drawing-submit {
+  background: #fff;
+  padding: 20px;
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
