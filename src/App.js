@@ -5,7 +5,7 @@ import DrawArea from "./components/DrawArea";
 class App extends Component {
   render() {
     return (
-      <div className="container">
+      <div className="section --full-height --center-v --center-h">
         <DrawArea />
       </div>
     );

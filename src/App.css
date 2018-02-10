@@ -1,7 +1,21 @@
-/*.container {
+.section.--full-height {
+  background: #52aaef;
+  height: 100vh;
+}
+
+.section.--center-v {
+  display: flex;
+  align-items: center;
+}
+
+.section.--center-h {
+  display: flex;
+  justify-content: center;
+}
+
+.block {
+  padding-left: 30px;
+  padding-right: 30px;
   display: block;
   width: 100%;
-  overflow: hidden;
-  max-width: 800px;
-  margin: 0 auto;
-}*/
+}

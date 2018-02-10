@@ -1,13 +1,15 @@
 import React from "react";
 import "./DrawArea.css";
 
+import Drawing from './Drawing.js';
+
 class DrawArea extends React.Component {
   constructor() {
     super();
 
     this.state = {
       lines: [],
-      isDrawing: false
+      isDrawing: false,
     };
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -74,10 +76,10 @@ class DrawArea extends React.Component {
   }
 
   relativeCoordinatesForEvent(mouseEvent) {
-    const boundingRect = this.refs.drawArea.getBoundingClientRect();
+    const {clientWidth, clientHeight, offsetLeft, offsetTop} = this.refs.drawArea;
     return {
-      x: mouseEvent.clientX - boundingRect.left,
-      y: mouseEvent.clientY - boundingRect.top
+      x: (mouseEvent.clientX - offsetLeft) * 1000/clientWidth,
+      y: (mouseEvent.clientY - offsetTop) * 500/clientHeight
     };
   }
 
@@ -93,26 +95,6 @@ class DrawArea extends React.Component {
       </div>
     );
   }
-}
-
-function Drawing({ lines }) {
-  return (
-    <svg className="drawing" viewBox="0 0 1000 500" preserveAspectRatio="xMinYMin meet">
-      {lines.map((line, index) => <DrawingLine key={index} line={line} />)}
-    </svg>
-  );
-}
-
-function DrawingLine({ line }) {
-  const pathData =
-    "M " +
-    line
-      .map(p => {
-        return `${p.x} ${p.y}`;
-      })
-      .join(" L ");
-
-  return <path className="drawing__path" d={pathData} />;
 }
 
 export default DrawArea;
