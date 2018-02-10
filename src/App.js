@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-// TODO: Add router here with the screens
+import { Switch, Route } from 'react-router-dom'
 import "./App.css";
 import StartScreen from './routes/StartScreen.js';
 import DrawingScreen from './routes/DrawingScreen.js';
-import DrawArea from './components/DrawArea'
 
 class App extends Component {
   render() {
     return (
-      <div className="section --full-height --center-v --center-h">
-        <DrawArea />
-      </div>
+      <main>
+        <Switch>
+          <Route exact path='/' component={StartScreen}/>
+          <Route path='/draw' component={DrawingScreen}/>
+        </Switch>
+      </main>
     );
   }
 }
