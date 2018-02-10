@@ -6,6 +6,15 @@ firebase.initializeApp(config);
 export function submitDrawing({ drawingId, bodyPart, drawingData}) {
   return firebase
     .database()
-    .ref(`games/${drawingId}/${bodyPart}`)
+    .ref(`drawings/${drawingId}/${bodyPart}`)
     .set(drawingData);
+}
+
+export function createUser(userName) {
+  const user = firebase.database().ref(`users`).push({userName: userName});
+  return user.key;
+}
+
+
+export function createNewDrawing() {
 }
