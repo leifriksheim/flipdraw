@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import { Router, Route, Link, IndexRoute, hashHistory, browserHistory } from 'react-router';
+// TODO: Add router here with the screens
 import "./App.css";
 import StartScreen from './routes/StartScreen.js';
 import DrawingScreen from './routes/DrawingScreen.js';
+import DrawArea from './components/DrawArea'
 
 class App extends Component {
   render() {
     return (
-      <Router history={browserHistory}>
-        <Route path='/' component={StartScreen} />
-        <Route path='/draw' component={DrawingScreen} />
-      </Router>
+      <div className="section --full-height --center-v --center-h">
+        <DrawArea />
+      </div>
     );
   }
 }

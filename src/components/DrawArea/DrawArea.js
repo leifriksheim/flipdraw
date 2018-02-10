@@ -2,6 +2,7 @@ import React from "react";
 import autoBind from 'react-autobind';
 import "./index.css";
 import { submitDrawing } from '../../firebase/';
+import { delay } from '../../utilities';
 
 import Drawing from './Drawing.js';
 
@@ -12,6 +13,7 @@ class DrawArea extends React.Component {
     this.state = {
       lines: [],
       isDrawing: false,
+      isReplaying: false,
     };
   }
 
@@ -26,7 +28,7 @@ class DrawArea extends React.Component {
   }
 
   handleMouseDown(mouseEvent) {
-    if (mouseEvent.button !== 0) {
+    if (mouseEvent.button !== 0 || this.state.isReplaying) {
       return;
     }
 
@@ -36,6 +38,39 @@ class DrawArea extends React.Component {
       lines: [...this.state.lines, [point]],
       isDrawing: true
     });
+  }
+
+  replayDrawing() {
+    const lines = this.state.lines;
+    let newLines = [];
+
+    // Disable drawing
+    this.setState({
+      isReplaying: true,
+    });
+
+    const startReplay = async () => {
+      // Loop through each line
+      for (let line of lines) {
+        newLines.push([]);
+
+        // Loop through each "dot" in given line
+        for (let dot of line) {
+          newLines[lines.indexOf(line)].push(dot);
+          this.setState({
+            lines: newLines
+          });
+          await delay(20);
+        }
+      }
+
+      // Re-enable drawing
+      this.setState({
+        isReplaying: false,
+      });
+    }
+
+    startReplay();
   }
 
   handleMouseMove(mouseEvent) {
@@ -97,6 +132,7 @@ class DrawArea extends React.Component {
         onMouseMove={this.handleMouseMove}
         >
         <Drawing lines={this.state.lines} />
+        <button className="drawing-replay" onClick={this.replayDrawing}>Replay</button>
         <button className="drawing-submit" onClick={this.submit}>Submit</button>
       </section>
     );
