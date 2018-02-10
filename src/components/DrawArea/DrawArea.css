@@ -1,5 +1,5 @@
 .draw-area-wrapper {
-  margin: 0 auto;
+  flex: 1;
   padding: 30px;
   max-width: 700px;
 }
@@ -10,8 +10,19 @@
   cursor: url("https://d30y9cdsu7xlg0.cloudfront.net/png/347-200.png"), auto;
 }
 
+.draw-area:after {
+  content: '';
+  display: block;
+  top: 0;
+  left: 0;
+  height: 105%;
+  width: 121%;
+  position: absolute;
+  background-image: url('../../assets/head-bg.svg');
+  z-index: -1;
+}
+
 .drawing {
-  border: 1px solid #000;
   cursor: url("https://d30y9cdsu7xlg0.cloudfront.net/png/347-200.png"), auto;
 }
 
