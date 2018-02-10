@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .section.--full-height {
   background: #52aaef;
   height: 100vh;
@@ -19,11 +18,4 @@
   padding-right: 30px;
   display: block;
   width: 100%;
-=======
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
->>>>>>> bde5e0a75598ac4f8f996e8b8ae5785c3ed89e48
 }

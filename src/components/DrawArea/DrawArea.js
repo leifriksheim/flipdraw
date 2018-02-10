@@ -76,20 +76,19 @@ class DrawArea extends React.Component {
     return {
       x: (mouseEvent.clientX - offsetLeft) * 1000/clientWidth,
       y: (mouseEvent.clientY - offsetTop) * 500/clientHeight
+    }
   }
 
   render() {
     return (
-      <div className="draw-area-wrapper">
-        <section
-          className="draw-area"
-          ref="drawArea"
-          onMouseDown={this.handleMouseDown}
-          onMouseMove={this.handleMouseMove}
-          >
-          <Drawing lines={this.state.lines} />
-        </section>
-      </div>
+      <section
+        className="draw-area"
+        ref="drawArea"
+        onMouseDown={this.handleMouseDown}
+        onMouseMove={this.handleMouseMove}
+        >
+        <Drawing lines={this.state.lines} />
+      </section>
     );
   }
 }
