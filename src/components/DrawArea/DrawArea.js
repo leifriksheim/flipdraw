@@ -1,7 +1,12 @@
 import React from "react";
 import autoBind from "react-autobind";
+import { withRouter } from "react-router-dom";
 import "./index.css";
-import { submitDrawing, getDrawingById } from "../../firebase/";
+import {
+  submitDrawing,
+  getDrawingById,
+  getRandomBodypart
+} from "../../firebase/";
 import { delay } from "../../utilities";
 
 import Drawing from "./Drawing.js";
@@ -14,15 +19,19 @@ class DrawArea extends React.Component {
     this.state = {
       lines: [],
       isDrawing: false,
+      bodyPart: "",
       isReplaying: false
     };
   }
 
   async componentDidMount() {
-    const drawing = await getDrawingById(this.props.drawingId);
-    console.log(drawing);
     document.addEventListener("mouseup", this.handleMouseUp);
     document.addEventListener("keydown", this.handleShortCuts);
+
+    const bodyPart = await getRandomBodypart(this.props.drawingId);
+    this.setState({
+      bodyPart: bodyPart
+    });
   }
 
   componentWillUnmount() {
@@ -103,10 +112,11 @@ class DrawArea extends React.Component {
 
   submit() {
     submitDrawing({
-      drawingId: "123",
+      drawingId: this.props.drawingId,
       drawingData: this.state.lines,
-      bodyPart: "head"
+      bodyPart: this.state.bodyPart
     });
+    this.props.history.push("/thank-you");
   }
 
   undoLastPath() {
@@ -149,4 +159,4 @@ class DrawArea extends React.Component {
   }
 }
 
-export default DrawArea;
+export default withRouter(DrawArea);
