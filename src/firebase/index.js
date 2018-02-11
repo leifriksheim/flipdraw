@@ -41,6 +41,15 @@ export async function findDrawing() {
   }
 }
 
+export async function getDrawingById(id) {
+  const drawing = await firebase
+    .database()
+    .ref(`drawings/${id}`)
+    .once("value");
+
+  return drawing.val();
+}
+
 export async function createNewDrawing() {
   const newDrawing = await firebase
     .database()

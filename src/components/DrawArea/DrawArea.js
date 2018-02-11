@@ -1,7 +1,7 @@
 import React from "react";
 import autoBind from "react-autobind";
 import "./index.css";
-import { submitDrawing } from "../../firebase/";
+import { submitDrawing, getDrawingById } from "../../firebase/";
 import { delay } from "../../utilities";
 
 import Drawing from "./Drawing.js";
@@ -17,7 +17,9 @@ class DrawArea extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const drawing = await getDrawingById(this.props.drawingId);
+    console.log(drawing);
     document.addEventListener("mouseup", this.handleMouseUp);
     document.addEventListener("keydown", this.handleShortCuts);
   }
