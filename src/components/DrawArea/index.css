@@ -2,8 +2,8 @@
   background: #fff;
   position: relative;
   margin: 0 auto;
-  width: 90vw;
-  height: 45vw;
+  width: 100%;
+  max-width: 640px;
   display: block;
   z-index: 1;
 }
@@ -13,29 +13,11 @@
   display: block;
   top: 0;
   left: 0;
-  width: 97vw;
-  height: 45vw;
+  width: 110%;
+  height: 110%;
   position: absolute;
   background-image: url('../../assets/head-bg.svg');
-  background-size: cover;
   z-index: -1;
-}
-
-@media (min-width: 1200px) {
-  .draw-area {
-    width: 1000px;
-    height: 500px;
-  }
-
-  .draw-area::after {
-    width: 1080px;
-    height: 500px;
-  }
-}
-
-.drawing {
-  width: 100%;
-  height: 100%;
 }
 
 .drawing__path {

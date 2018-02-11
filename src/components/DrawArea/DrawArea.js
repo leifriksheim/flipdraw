@@ -118,8 +118,8 @@ class DrawArea extends React.Component {
   relativeCoordinatesForEvent(mouseEvent) {
     const {clientWidth, clientHeight, offsetLeft, offsetTop} = this.refs.drawArea;
     return {
-      x: (mouseEvent.clientX - offsetLeft) * 1000/clientWidth,
-      y: (mouseEvent.clientY - offsetTop) * 500/clientHeight
+      x: (mouseEvent.clientX - offsetLeft) * 1920 / clientWidth,
+      y: (mouseEvent.clientY - offsetTop) * 1080 / clientHeight
     }
   }
 

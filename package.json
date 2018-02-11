@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase": "^4.9.1",
+    "prettier": "^1.10.2",
     "react": "^16.2.0",
     "react-autobind": "^1.0.6",
     "react-dom": "^16.2.0",
