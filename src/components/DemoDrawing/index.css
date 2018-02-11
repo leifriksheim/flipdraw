@@ -1,0 +1,42 @@
+.demo-drawing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-drawing svg {
+  flex: 1;
+  min-width: 1000px;
+}
+
+.demo-drawing__path {
+  fill: none;
+  stroke-width: 10px;
+  stroke: #2892d7;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.demo-drawing-info {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.demo-drawing-info a {
+  display: block;
+  padding: 10px;
+  font-size: 10px;
+  color: #1a76b5;
+}
+
+@media screen and (min-width: 600px) {
+  .demo-drawing-info {
+    display: block;
+  }
+}

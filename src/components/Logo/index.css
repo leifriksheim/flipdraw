@@ -1,0 +1,23 @@
+.logo {
+  position: relative;
+  font-size: 70px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -3px;
+  text-align: center;
+  color: #0b3b61;
+}
+
+@media screen and (min-width: 600px) {
+  .logo {
+    font-size: 100px;
+  }
+}
+
+.logo__flipped {
+  display: inline-block;
+  transform: rotate(180deg);
+  color: white;
+  padding-top: 2px;
+  text-transform: lowercase;
+}

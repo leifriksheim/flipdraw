@@ -1,13 +1,16 @@
-import React from 'react';
-import autoBind from 'react-autobind';
-import { createUser, findDrawing } from '../firebase';
+import React from "react";
+import autoBind from "react-autobind";
+import { createUser, findDrawing } from "../firebase";
+import Logo from "../components/Logo";
+import DemoDrawing from "../components/DemoDrawing";
+import StartDrawingForm from "../components/StartDrawingForm";
 
 class StartScreen extends React.Component {
   constructor() {
     super();
     autoBind(this);
     this.state = {
-      userName: '',
+      userName: ""
     };
   }
 
@@ -21,20 +24,25 @@ class StartScreen extends React.Component {
   async startGame() {
     const userKey = createUser(this.state.userName);
     const existingDrawing = await findDrawing();
-    if(existingDrawing) {
-      console.log('Start drawing in existing drawing', existingDrawing);
+    if (existingDrawing) {
+      console.log("Start drawing in existing drawing", existingDrawing);
     } else {
-      console.log('Create totally new drawing here');
+      console.log("Create totally new drawing here");
     }
   }
 
   render() {
     return (
-      <div>
-        <input type="text" value={this.state.userName} onChange={this.updateUsername} />
-        <button onClick={this.startGame}>Start Drawing!</button>
+      <div className="landing-screen">
+        <DemoDrawing />
+        <Logo />
+        <StartDrawingForm
+          userName={this.state.userName}
+          onChange={this.updateUsername}
+          onSubmit={this.startGame}
+        />
       </div>
-    )
+    );
   }
 }
 

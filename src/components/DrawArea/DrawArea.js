@@ -1,10 +1,11 @@
 import React from "react";
-import autoBind from 'react-autobind';
+import autoBind from "react-autobind";
 import "./index.css";
-import { submitDrawing } from '../../firebase/';
-import { delay } from '../../utilities';
+import { submitDrawing } from "../../firebase/";
+import { delay } from "../../utilities";
 
-import Drawing from './Drawing.js';
+import Drawing from "./Drawing.js";
+import Button from "../Button";
 
 class DrawArea extends React.Component {
   constructor() {
@@ -13,7 +14,7 @@ class DrawArea extends React.Component {
     this.state = {
       lines: [],
       isDrawing: false,
-      isReplaying: false,
+      isReplaying: false
     };
   }
 
@@ -46,7 +47,7 @@ class DrawArea extends React.Component {
 
     // Disable drawing
     this.setState({
-      isReplaying: true,
+      isReplaying: true
     });
 
     const startReplay = async () => {
@@ -66,9 +67,9 @@ class DrawArea extends React.Component {
 
       // Re-enable drawing
       this.setState({
-        isReplaying: false,
+        isReplaying: false
       });
-    }
+    };
 
     startReplay();
   }
@@ -100,10 +101,10 @@ class DrawArea extends React.Component {
 
   submit() {
     submitDrawing({
-      drawingId: '123',
+      drawingId: "123",
       drawingData: this.state.lines,
-      bodyPart: 'head'
-    })
+      bodyPart: "head"
+    });
   }
 
   undoLastPath() {
@@ -116,11 +117,16 @@ class DrawArea extends React.Component {
   }
 
   relativeCoordinatesForEvent(mouseEvent) {
-    const {clientWidth, clientHeight, offsetLeft, offsetTop} = this.refs.drawArea;
+    const {
+      clientWidth,
+      clientHeight,
+      offsetLeft,
+      offsetTop
+    } = this.refs.drawArea;
     return {
       x: (mouseEvent.clientX - offsetLeft) * 1920 / clientWidth,
       y: (mouseEvent.clientY - offsetTop) * 1080 / clientHeight
-    }
+    };
   }
 
   render() {
@@ -130,10 +136,12 @@ class DrawArea extends React.Component {
         ref="drawArea"
         onMouseDown={this.handleMouseDown}
         onMouseMove={this.handleMouseMove}
-        >
+      >
         <Drawing lines={this.state.lines} />
-        <button className="drawing-replay" onClick={this.replayDrawing}>Replay</button>
-        <button className="drawing-submit" onClick={this.submit}>Submit</button>
+        <aside className="draw-area__actions">
+          <Button onClick={this.replayDrawing}>Replay</Button>
+          <Button onClick={this.submit}>Submit</Button>
+        </aside>
       </section>
     );
   }

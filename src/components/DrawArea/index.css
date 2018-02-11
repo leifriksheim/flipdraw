@@ -9,31 +9,33 @@
 }
 
 .draw-area:after {
-  content: '';
+  content: "";
   display: block;
   top: 0;
   left: 0;
-  width: 110%;
-  height: 110%;
+  width: 107%;
+  height: 105%;
   position: absolute;
-  background-image: url('../../assets/head-bg.svg');
+  background-image: url("../../assets/head-bg.svg");
   z-index: -1;
+}
+
+.draw-area__actions {
+  position: absolute;
+  width: 100%;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.drawing {
+  cursor: url("../../assets/cursor.svg"), auto;
 }
 
 .drawing__path {
   fill: none;
-  stroke-width: 5px;
+  stroke-width: 10px;
   stroke: black;
   stroke-linejoin: round;
   stroke-linecap: round;
-}
-
-.drawing-submit {
-  background: #fff;
-  padding: 20px;
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
 }
