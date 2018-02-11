@@ -5,6 +5,7 @@ import { submitDrawing, getDrawingById } from "../../firebase/";
 import { delay } from "../../utilities";
 
 import Drawing from "./Drawing.js";
+import Button from "../Button";
 
 class DrawArea extends React.Component {
   constructor(props) {
@@ -139,12 +140,10 @@ class DrawArea extends React.Component {
         onMouseMove={this.handleMouseMove}
       >
         <Drawing lines={this.state.lines} />
-        <button className="drawing-replay" onClick={this.replayDrawing}>
-          Replay
-        </button>
-        <button className="drawing-submit" onClick={this.submit}>
-          Submit
-        </button>
+        <aside className="draw-area__actions">
+          <Button onClick={this.replayDrawing}>Replay</Button>
+          <Button onClick={this.submit}>Submit</Button>
+        </aside>
       </section>
     );
   }

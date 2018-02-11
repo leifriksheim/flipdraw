@@ -4,6 +4,10 @@ import { withRouter } from "react-router-dom";
 import { createUser, findDrawing, createNewDrawing } from "../firebase";
 import * as firebase from "firebase";
 
+import Logo from "../components/Logo";
+import DemoDrawing from "../components/DemoDrawing";
+import StartDrawingForm from "../components/StartDrawingForm";
+
 class StartScreen extends React.Component {
   constructor() {
     super();
@@ -43,13 +47,14 @@ class StartScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <input
-          type="text"
-          value={this.state.userName}
+      <div className="landing-screen">
+        <DemoDrawing />
+        <Logo />
+        <StartDrawingForm
+          userName={this.state.userName}
           onChange={this.updateUsername}
+          onSubmit={this.startGame}
         />
-        <button onClick={this.startGame}>Start Drawing!</button>
       </div>
     );
   }

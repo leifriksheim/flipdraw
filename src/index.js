@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/sanitize.css';
-import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom'
+
+import App from './App';
+import './styles/sanitize.css';
+import './index.css';
 
 ReactDOM.render((
   <BrowserRouter>
