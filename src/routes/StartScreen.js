@@ -9,8 +9,8 @@ import DemoDrawing from "../components/DemoDrawing";
 import StartDrawingForm from "../components/StartDrawingForm";
 
 class StartScreen extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     autoBind(this);
     this.state = {
       userName: ""
@@ -35,13 +35,15 @@ class StartScreen extends React.Component {
     });
   }
 
-  async startGame() {
+  async startGame(e) {
+    e.preventDefault();
     const userKey = await createUser(this.state.userName);
     const existingDrawing = await findDrawing();
     if (existingDrawing) {
       this.props.history.push(`/draw/${existingDrawing}`);
     } else {
-      const drawingId = await createNewDrawing();
+      const newDrawingId = await createNewDrawing();
+      this.props.history.push(`/draw/${newDrawingId}`);
     }
   }
 
