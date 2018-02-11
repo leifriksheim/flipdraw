@@ -4,13 +4,16 @@ import config from "./config.js";
 firebase.initializeApp(config);
 
 export function submitDrawing({ drawingId, bodyPart, drawingData }) {
-  const drawing = { isActive: false };
-  drawing[bodyPart] = drawingData;
+  const currentUser = firebase.auth().currentUser;
 
   return firebase
     .database()
-    .ref(`drawings/${drawingId}`)
-    .set(drawing);
+    .ref(`drawings/${drawingId}/parts/${bodyPart}`)
+    .set({
+      data: drawingData,
+      uid: currentUser.uid,
+      isFinished: true
+    });
 }
 
 export async function createUser(userName) {
@@ -62,7 +65,7 @@ export async function createNewDrawing() {
         body: {
           isFinished: false
         },
-        feet: {
+        legs: {
           isFinished: false
         }
       }
@@ -76,4 +79,15 @@ export async function createNewDrawing() {
     .set([key]);
 
   return key;
+}
+
+export async function getRandomBodypart(drawingId) {
+  const drawing = await getDrawingById(drawingId);
+
+  const bodyParts = [];
+  if (!drawing.parts.head.isFinished) bodyParts.push("head");
+  if (!drawing.parts.body.isFinished) bodyParts.push("body");
+  if (!drawing.parts.legs.isFinished) bodyParts.push("legs");
+  // Return random body part from parts that are not finished
+  return bodyParts[Math.floor(Math.random() * bodyParts.length)];
 }

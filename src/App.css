@@ -1,15 +1,14 @@
 .section.--full-height {
-  background: #52aaef;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .section.--center-v {
-  display: flex;
   align-items: center;
 }
 
 .section.--center-h {
-  display: flex;
   justify-content: center;
 }
 
