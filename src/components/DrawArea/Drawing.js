@@ -2,7 +2,7 @@ import React from 'react';
 
 function Drawing({ lines }) {
   return (
-    <svg className="drawing" viewBox="0 0 1000 500" preserveAspectRatio="xMinYMin meet">
+    <svg className="drawing" viewBox="0 0 1920 1080" preserveAspectRatio="xMinYMin meet">
       {lines.map((line, index) => <DrawingLine key={index} line={line} />)}
     </svg>
   );
