@@ -1,11 +1,10 @@
-import * as firebase from 'firebase';
-import config from './config.js';
+import * as firebase from "firebase";
+import config from "./config.js";
 
 firebase.initializeApp(config);
 
-export function submitDrawing({ drawingId, bodyPart, drawingData}) {
-
-  const drawing = {isActive: false};
+export function submitDrawing({ drawingId, bodyPart, drawingData }) {
+  const drawing = { isActive: false };
   drawing[bodyPart] = drawingData;
 
   return firebase
@@ -14,19 +13,23 @@ export function submitDrawing({ drawingId, bodyPart, drawingData}) {
     .set(drawing);
 }
 
-export function createUser(userName) {
-  const user = firebase.database().ref(`users`).push({userName: userName});
-  return user.key;
+export async function createUser(userName) {
+  const user = await firebase.auth().signInAnonymously();
+  firebase
+    .database()
+    .ref(`users/${user.uid}`)
+    .set({
+      userName: userName,
+      uid: user.uid
+    });
+  return user.uid;
 }
 
-
 export async function findDrawing() {
-  // Only get the drawings that are not active (currently being drawn by someone else)
-  const drawingsFromFirebase = await firebase.database()
-                                 .ref(`drawings`)
-                                 .orderByChild('isActive')
-                                 .equalTo(false)
-                                 .once('value');
+  const drawingsFromFirebase = await firebase
+    .database()
+    .ref("activeDrawings")
+    .once("value");
 
   const drawings = drawingsFromFirebase.val();
   if (drawings) {
@@ -34,6 +37,34 @@ export async function findDrawing() {
     return drawings[Object.keys(drawings)[0]];
   } else {
     // Return false if no drawings exist
-    return false
+    return false;
   }
+}
+
+export async function createNewDrawing() {
+  const newDrawing = await firebase
+    .database()
+    .ref("drawings")
+    .push({
+      parts: {
+        head: {
+          isFinished: false
+        },
+        body: {
+          isFinished: false
+        },
+        feet: {
+          isFinished: false
+        }
+      }
+    });
+
+  const key = newDrawing.key;
+
+  await firebase
+    .database()
+    .ref("activeDrawings")
+    .set([key]);
+
+  return key;
 }
