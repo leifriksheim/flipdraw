@@ -8,8 +8,8 @@ import Drawing from "./Drawing.js";
 import Button from "../Button";
 
 class DrawArea extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     autoBind(this);
     this.state = {
       lines: [],

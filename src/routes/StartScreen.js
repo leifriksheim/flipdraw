@@ -1,6 +1,9 @@
 import React from "react";
 import autoBind from "react-autobind";
-import { createUser, findDrawing } from "../firebase";
+import { withRouter } from "react-router-dom";
+import { createUser, findDrawing, createNewDrawing } from "../firebase";
+import * as firebase from "firebase";
+
 import Logo from "../components/Logo";
 import DemoDrawing from "../components/DemoDrawing";
 import StartDrawingForm from "../components/StartDrawingForm";
@@ -14,6 +17,17 @@ class StartScreen extends React.Component {
     };
   }
 
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        const uid = user.uid;
+        console.log(uid);
+      } else {
+        console.log("not logged in");
+      }
+    });
+  }
+
   updateUsername(e) {
     const userName = e.target.value;
     this.setState({
@@ -22,12 +36,12 @@ class StartScreen extends React.Component {
   }
 
   async startGame() {
-    const userKey = createUser(this.state.userName);
+    const userKey = await createUser(this.state.userName);
     const existingDrawing = await findDrawing();
     if (existingDrawing) {
-      console.log("Start drawing in existing drawing", existingDrawing);
+      this.props.history.push(`/draw/${existingDrawing}`);
     } else {
-      console.log("Create totally new drawing here");
+      const drawingId = await createNewDrawing();
     }
   }
 
