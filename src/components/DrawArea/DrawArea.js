@@ -21,21 +21,29 @@ class DrawArea extends React.Component {
   async componentDidMount() {
     const drawing = await getDrawingById(this.props.drawingId);
     console.log(drawing);
-    document.addEventListener("mouseup", this.handleMouseUp);
+    document.addEventListener("mouseup", this.handleLineEnd);
+    document.addEventListener("touchEnd", this.handleLineEnd);
     document.addEventListener("keydown", this.handleShortCuts);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mouseup", this.handleMouseUp);
+    document.removeEventListener("mouseup", this.handleLineEnd);
+    document.removeEventListener("touchEnd", this.handleLineEnd);
     document.removeEventListener("keydown", this.handleShortCuts);
   }
 
-  handleMouseDown(mouseEvent) {
-    if (mouseEvent.button !== 0 || this.state.isReplaying) {
+  handleStartLine(e) {
+    const { isReplaying } = this.state;
+    const isMouseMove = e.button === 0;
+    const isTouchMove = e.touches && e.touches.length === 1;
+
+    // Return if event doesn't match above checks
+    if ((!isMouseMove && !isTouchMove) || isReplaying) {
       return;
     }
 
-    const point = this.relativeCoordinatesForEvent(mouseEvent);
+    const input = isMouseMove ? e : e.touches[0];
+    const point = this.relativeCoordinatesForEvent(input);
 
     this.setState({
       lines: [...this.state.lines, [point]],
@@ -76,12 +84,13 @@ class DrawArea extends React.Component {
     startReplay();
   }
 
-  handleMouseMove(mouseEvent) {
+  handleLineMove(e) {
     if (!this.state.isDrawing) {
       return;
     }
-
-    const point = this.relativeCoordinatesForEvent(mouseEvent);
+    const isMouseMove = e.button === 0;
+    const input = isMouseMove ? e : e.touches[0];
+    const point = this.relativeCoordinatesForEvent(input);
 
     const lines = [...this.state.lines];
     lines[lines.length - 1].push(point);
@@ -91,7 +100,7 @@ class DrawArea extends React.Component {
     });
   }
 
-  handleMouseUp() {
+  handleLineEnd() {
     this.setState({ isDrawing: false });
   }
 
@@ -118,7 +127,7 @@ class DrawArea extends React.Component {
     });
   }
 
-  relativeCoordinatesForEvent(mouseEvent) {
+  relativeCoordinatesForEvent(e) {
     const {
       clientWidth,
       clientHeight,
@@ -126,8 +135,8 @@ class DrawArea extends React.Component {
       offsetTop
     } = this.refs.drawArea;
     return {
-      x: (mouseEvent.clientX - offsetLeft) * 1920 / clientWidth,
-      y: (mouseEvent.clientY - offsetTop) * 1080 / clientHeight
+      x: (e.clientX - offsetLeft) * 1920 / clientWidth,
+      y: (e.clientY - offsetTop) * 1080 / clientHeight
     };
   }
 
@@ -136,8 +145,10 @@ class DrawArea extends React.Component {
       <section
         className="draw-area"
         ref="drawArea"
-        onMouseDown={this.handleMouseDown}
-        onMouseMove={this.handleMouseMove}
+        onMouseDown={this.handleStartLine}
+        onMouseMove={this.handleLineMove}
+        onTouchStart={this.handleStartLine}
+        onTouchMove={this.handleLineMove}
       >
         <Drawing lines={this.state.lines} />
         <aside className="draw-area__actions">

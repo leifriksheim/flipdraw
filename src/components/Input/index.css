@@ -1,10 +1,11 @@
 .input {
+  display: inline-block;
   position: relative;
-  background: white;
-  border: 0;
+  border: 5px solid #b3d4fc;
+  background: #b3d4fc;
+  border-radius: 255px 15px 225px 15px/15px 235px 5px 275px;
   font-family: "Roboto", sans-serif;
   padding: 15px 5px;
-  border-radius: 5px;
   text-align: center;
   transition: all 0.3s ease;
 }
@@ -17,12 +18,12 @@
 
 .input::placeholder {
   position: absolute;
-  color: #6daedb;
+  color: white;
   transition: transform 0.3s ease;
 }
 
 .input:focus {
-  box-shadow: 0px 4px 10px #00000040;
+  border-color: #1b4353;
   outline: 0;
 }
 .input:focus::placeholder {

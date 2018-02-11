@@ -2,10 +2,16 @@
   background: #fff;
   position: relative;
   margin: 0 auto;
-  width: 100%;
+  width: 80%;
   max-width: 640px;
   display: block;
   z-index: 1;
+}
+@media screen and (min-width: 800px) {
+  .draw-area {
+    width: 100%;
+    max-width: 640px;
+  }
 }
 
 .draw-area:after {
@@ -21,11 +27,19 @@
 }
 
 .draw-area__actions {
-  position: absolute;
-  width: 100%;
-  padding-top: 20px;
-  display: flex;
+  display: none;
+  position: fixed;
+  flex-direction: column;
   justify-content: space-between;
+}
+@media screen and (min-width: 800px) {
+  .draw-area__actions {
+    display: flex;
+    position: absolute;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 20px;
+  }
 }
 
 .drawing {

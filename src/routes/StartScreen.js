@@ -5,15 +5,17 @@ import { createUser, findDrawing, createNewDrawing } from "../firebase";
 import * as firebase from "firebase";
 
 import Logo from "../components/Logo";
+import Button from "../components/Button";
 import DemoDrawing from "../components/DemoDrawing";
-import StartDrawingForm from "../components/StartDrawingForm";
+import JoinForm from "../components/JoinForm";
 
 class StartScreen extends React.Component {
   constructor() {
     super();
     autoBind(this);
     this.state = {
-      userName: ""
+      userName: "",
+      overlayVisible: false
     };
   }
 
@@ -25,6 +27,12 @@ class StartScreen extends React.Component {
       } else {
         console.log("not logged in");
       }
+    });
+  }
+
+  showJoinForm() {
+    this.setState({
+      overlayVisible: true
     });
   }
 
@@ -50,7 +58,9 @@ class StartScreen extends React.Component {
       <div className="landing-screen">
         <DemoDrawing />
         <Logo />
-        <StartDrawingForm
+        <Button onClick={this.showJoinForm}>Start Drawing!</Button>
+        <JoinForm
+          isVisible={this.state.overlayVisible}
           userName={this.state.userName}
           onChange={this.updateUsername}
           onSubmit={this.startGame}
