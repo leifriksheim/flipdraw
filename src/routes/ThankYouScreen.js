@@ -17,8 +17,8 @@ class ThankYouScreen extends React.Component {
   render() {
     return (
       <div className="section --full-height --center-v --center-h">
-        <h1 class="logo">
-          <span class="logo__flipped">Thank</span>You!
+        <h1 className="logo">
+          <span className="logo__flipped">Thank</span>You!
         </h1>
         <Button>Draw a new one</Button>
         <Button>See all your drawings</Button>

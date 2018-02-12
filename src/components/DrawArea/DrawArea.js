@@ -2,11 +2,6 @@ import React from "react";
 import autoBind from "react-autobind";
 import { withRouter } from "react-router-dom";
 import "./index.css";
-import {
-  submitDrawing,
-  getDrawingById,
-  getRandomBodypart
-} from "../../firebase/";
 import { delay } from "../../utilities";
 
 import Drawing from "./Drawing.js";
@@ -19,7 +14,6 @@ class DrawArea extends React.Component {
     this.state = {
       lines: [],
       isDrawing: false,
-      bodyPart: "",
       isReplaying: false
     };
   }
@@ -28,11 +22,6 @@ class DrawArea extends React.Component {
     document.addEventListener("mouseup", this.handleLineEnd);
     document.addEventListener("touchEnd", this.handleLineEnd);
     document.addEventListener("keydown", this.handleShortCuts);
-
-    const bodyPart = await getRandomBodypart(this.props.drawingId);
-    this.setState({
-      bodyPart: bodyPart
-    });
   }
 
   componentWillUnmount() {
@@ -119,15 +108,6 @@ class DrawArea extends React.Component {
     }
   }
 
-  submit() {
-    submitDrawing({
-      drawingId: this.props.drawingId,
-      drawingData: this.state.lines,
-      bodyPart: this.state.bodyPart
-    });
-    this.props.history.push("/thank-you");
-  }
-
   undoLastPath() {
     const lines = [...this.state.lines];
     lines.splice(lines.length - 1, 1);
@@ -163,7 +143,7 @@ class DrawArea extends React.Component {
         <Drawing lines={this.state.lines} />
         <aside className="draw-area__actions">
           <Button onClick={this.replayDrawing}>Replay</Button>
-          <Button onClick={this.submit}>Submit</Button>
+          <Button onClick={() => this.props.submit(this.state.lines)}>Submit</Button>
         </aside>
       </section>
     );
