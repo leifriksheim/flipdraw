@@ -2,7 +2,6 @@ import React from "react";
 import autoBind from "react-autobind";
 import { withRouter } from "react-router-dom";
 import { createUser, findDrawing, createNewDrawing } from "../firebase";
-import * as firebase from "firebase";
 
 import Logo from "../components/Logo";
 import Button from "../components/Button";
@@ -17,17 +16,6 @@ class StartScreen extends React.Component {
       userName: "",
       overlayVisible: false
     };
-  }
-
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        const uid = user.uid;
-        console.log(uid);
-      } else {
-        console.log("not logged in");
-      }
-    });
   }
 
   showJoinForm() {
