@@ -3,6 +3,10 @@ import config from "./config.js";
 
 firebase.initializeApp(config);
 
+const db = firebase.database();
+
+export { db, firebase };
+
 export function submitDrawing({ drawingId, bodyPart, drawingData }) {
   const currentUser = firebase.auth().currentUser;
 
@@ -12,7 +16,8 @@ export function submitDrawing({ drawingId, bodyPart, drawingData }) {
     .set({
       data: drawingData,
       uid: currentUser.uid,
-      isFinished: true
+      isFinished: true,
+      inProgress: false
     });
 }
 
@@ -37,11 +42,19 @@ export async function findDrawing() {
   const drawings = drawingsFromFirebase.val();
   if (drawings) {
     // Return the first drawing of existing drawings
-    return drawings[Object.keys(drawings)[0]];
+    return Object.keys(drawings)[0];
   } else {
     // Return false if no drawings exist
     return false;
   }
+}
+
+export async function getAllDrawings(uid) {
+  const allDrawings = await firebase
+    .database()
+    .ref(`users/${uid}/drawings`)
+    .once("value");
+  return allDrawings.val();
 }
 
 export async function getDrawingById(id) {
@@ -75,8 +88,8 @@ export async function createNewDrawing() {
 
   await firebase
     .database()
-    .ref("activeDrawings")
-    .set([key]);
+    .ref(`activeDrawings/${key}`)
+    .set(true);
 
   return key;
 }
