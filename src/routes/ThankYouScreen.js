@@ -14,14 +14,22 @@ class ThankYouScreen extends React.Component {
     };
   }
 
+  handleNewDrawing() {
+    this.props.history.push("/");
+  }
+
+  handleAllDrawings() {
+    this.props.history.push("/all-drawings");
+  }
+
   render() {
     return (
       <div className="section --full-height --center-v --center-h">
         <h1 className="logo">
           <span className="logo__flipped">Thank</span>You!
         </h1>
-        <Button>Draw a new one</Button>
-        <Button>See all your drawings</Button>
+        <Button onClick={this.handleNewDrawing}>Draw a new one</Button>
+        <Button onClick={this.handleAllDrawings}>See all your drawings</Button>
       </div>
     );
   }
