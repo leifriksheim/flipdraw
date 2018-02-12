@@ -5,6 +5,8 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "firebase": "^4.9.1",
+    "firebase-admin": "^5.8.2",
+    "firebase-functions": "^0.8.1",
     "prettier": "^1.10.2",
     "react": "^16.2.0",
     "react-autobind": "^1.0.6",
