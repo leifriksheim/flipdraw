@@ -15,7 +15,7 @@ function JoinForm(props) {
   return (
     <div className={formClass}>
       <form className="join-form__inner" onSubmit={props.onSubmit}>
-        <h1 className="--inverted">Hi there!</h1>
+        <h1 className="--inverted">Ahoi!</h1>
         <p>You must be new here. Pick a name!</p>
         <Input
           name="username"

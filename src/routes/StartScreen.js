@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { createUser, findDrawing, createNewDrawing } from "../firebase";
 import * as firebase from "firebase";
 
+import View from "../components/View";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
 import DemoDrawing from "../components/DemoDrawing";
@@ -15,7 +16,7 @@ class StartScreen extends React.Component {
     autoBind(this);
     this.state = {
       userName: "",
-      overlayVisible: false
+      pageFlipped: false
     };
   }
 
@@ -32,7 +33,7 @@ class StartScreen extends React.Component {
 
   showJoinForm() {
     this.setState({
-      overlayVisible: true
+      pageFlipped: !this.state.pageFlipped
     });
   }
 
@@ -56,17 +57,21 @@ class StartScreen extends React.Component {
   }
 
   render() {
+    const { userName, pageFlipped } = this.state;
     return (
-      <div className="landing-screen">
-        <DemoDrawing />
-        <Logo />
-        <Button onClick={this.showJoinForm}>Start Drawing!</Button>
-        <JoinForm
-          isVisible={this.state.overlayVisible}
-          userName={this.state.userName}
-          onChange={this.updateUsername}
-          onSubmit={this.startGame}
-        />
+      <div>
+        <View isVisible={!pageFlipped}>
+          <DemoDrawing />
+          <Logo />
+          <Button onClick={this.showJoinForm}>Start Drawing!</Button>
+        </View>
+        <View isDark isBack isVcentered isVisible={pageFlipped}>
+          <JoinForm
+            userName={userName}
+            onChange={this.updateUsername}
+            onSubmit={this.startGame}
+          />
+        </View>
       </div>
     );
   }

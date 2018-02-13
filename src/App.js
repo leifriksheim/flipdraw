@@ -8,7 +8,7 @@ import ThankYouScreen from "./routes/ThankYouScreen.js";
 class App extends Component {
   render() {
     return (
-      <main>
+      <main className="main">
         <Switch>
           <Route exact path="/" component={StartScreen} />
           <Route path="/draw/:id" component={DrawingScreen} />
