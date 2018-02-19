@@ -7,6 +7,7 @@ function View(props) {
   const viewClass = cx({
     view: true,
     "--vcenter": props.isVcentered,
+    "--vcenter-desktop": props.isVcenteredDesktop,
     "--dark": props.isDark,
     "--back": props.isBack,
     "--visible": props.isVisible

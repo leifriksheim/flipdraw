@@ -2,7 +2,7 @@ import React from "react";
 import autoBind from "react-autobind";
 import { withRouter } from "react-router-dom";
 import "./index.css";
-import { delay } from "../../utilities";
+import { delay } from "../../utilities/delay";
 
 import Drawing from "./Drawing.js";
 import Button from "../Button";
@@ -143,7 +143,9 @@ class DrawArea extends React.Component {
         <Drawing lines={this.state.lines} />
         <aside className="draw-area__actions">
           <Button onClick={this.replayDrawing}>Replay</Button>
-          <Button onClick={() => this.props.submit(this.state.lines)}>Submit</Button>
+          <Button onClick={() => this.props.submit(this.state.lines)}>
+            Submit
+          </Button>
         </aside>
       </section>
     );
