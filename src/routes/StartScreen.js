@@ -1,40 +1,84 @@
 import React from "react";
 import autoBind from "react-autobind";
-import { withRouter } from "react-router-dom";
-import { createUser, findDrawing, createNewDrawing } from "../firebase";
+import {
+  firebase,
+  createUser,
+  findDrawing,
+  createNewDrawing,
+  getAllDrawings
+} from "../firebase";
 
 import View from "../components/View";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
 import DemoDrawing from "../components/DemoDrawing";
-import JoinForm from "../components/JoinForm";
+import Loader from "../components/Loader";
+import Input from "../components/Input";
 
 class StartScreen extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
     this.state = {
-      userName: "",
+      isLoading: true,
+      userData: {
+        displayName: ""
+      },
+      userDrawings: {},
       pageFlipped: false
     };
   }
 
-  showJoinForm() {
+  async componentDidMount() {
+    // Find user if data exists in localstorage
+    firebase.auth().onAuthStateChanged(async user => {
+      if (user) {
+        // User is signed in.
+        const uid = user.uid;
+        const allDrawings = (await getAllDrawings(uid)) || {};
+        const allDrawingsArray = Object.keys(allDrawings).map(drawingId => {
+          return allDrawings[drawingId];
+        });
+        this.setState({
+          userData: user,
+          allDrawings: allDrawingsArray,
+          isLoading: false
+        });
+      } else {
+        // User is signed out.
+        this.setState({
+          userData: {},
+          isLoading: false
+        });
+      }
+    });
+  }
+
+  togglePageFlip() {
+    // Bypass new user form if logged in
+    if (this.state.userData.uid) {
+      return this.startGame();
+    }
     this.setState({
       pageFlipped: !this.state.pageFlipped
     });
   }
 
-  updateUsername(e) {
-    const userName = e.target.value;
+  updateDisplayName(e) {
+    const displayName = e.target.value;
     this.setState({
-      userName: userName
+      userData: Object.assign({}, { displayName: displayName })
     });
   }
 
   async startGame(e) {
-    e.preventDefault();
-    const userKey = await createUser(this.state.userName);
+    e && e.preventDefault();
+
+    // Create user only if not logged in
+    if (!this.state.userData.uid) {
+      await createUser(this.state.userData.displayName);
+    }
+
     const existingDrawing = await findDrawing();
     if (existingDrawing) {
       this.props.history.push(`/draw/${existingDrawing}`);
@@ -45,20 +89,36 @@ class StartScreen extends React.Component {
   }
 
   render() {
-    const { userName, pageFlipped } = this.state;
+    const { userData, pageFlipped, isLoading } = this.state;
     return (
       <div>
-        <View isVisible={!pageFlipped}>
+        <View isVisible={!pageFlipped} isVcenteredDesktop>
           <DemoDrawing />
           <Logo />
-          <Button onClick={this.showJoinForm}>Start Drawing!</Button>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div>
+              <Button onClick={this.togglePageFlip}>Start Drawing!</Button>
+              {userData.uid && (
+                <p className="white">Drawing as {userData.displayName}</p>
+              )}
+            </div>
+          )}
         </View>
-        <View isDark isBack isVcentered isVisible={pageFlipped}>
-          <JoinForm
-            userName={userName}
-            onChange={this.updateUsername}
-            onSubmit={this.startGame}
-          />
+
+        <View isDark isBack isVisible={pageFlipped}>
+          <h1 className="--inverted">Ahoi!</h1>
+          <p>You must be new here. Pick a name!</p>
+          <form className="join-form__inner" onSubmit={this.startGame}>
+            <Input
+              name="displayName"
+              placeholder="Enter name"
+              value={userData.displayName}
+              onChange={this.updateDisplayName}
+            />
+            <Button type="submit">I'm ready!</Button>
+          </form>
         </View>
       </div>
     );
