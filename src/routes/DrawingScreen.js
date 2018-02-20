@@ -40,7 +40,7 @@ class DrawingScreen extends React.Component {
   submit(drawingData) {
     submitDrawing({
       drawingId: this.props.match.params.id,
-      drawingData: drawingData,
+      drawingData: JSON.stringify(drawingData),
       bodyPart: this.state.bodyPart
     });
     this.props.history.push("/thank-you");
