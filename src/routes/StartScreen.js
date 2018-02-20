@@ -14,6 +14,7 @@ import Button from "../components/Button";
 import DemoDrawing from "../components/DemoDrawing";
 import Loader from "../components/Loader";
 import Input from "../components/Input";
+import Avatar from "../components/Avatar";
 
 class StartScreen extends React.Component {
   constructor(props) {
@@ -95,6 +96,7 @@ class StartScreen extends React.Component {
         <View isVisible={!pageFlipped} isVcenteredDesktop>
           <DemoDrawing />
           <Logo />
+          <Avatar isVisible={userData.uid} displayName={userData.displayName} />
           {isLoading ? (
             <Loader />
           ) : (
