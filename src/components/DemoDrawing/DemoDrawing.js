@@ -3,7 +3,7 @@ import autoBind from "react-autobind";
 import { Link } from "react-router-dom";
 import "./index.css";
 
-import { delay } from "../../utilities";
+import { delay } from "../../utilities/delay";
 import demoDrawingLines from "../../constants/demoDrawing";
 
 class DemoDrawing extends React.Component {

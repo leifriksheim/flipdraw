@@ -2,10 +2,14 @@ import React from "react";
 import autoBind from "react-autobind";
 import { withRouter } from "react-router-dom";
 import "./index.css";
-import { delay } from "../../utilities";
+import { delay } from "../../utilities/delay";
 
+import View from "../View";
 import Drawing from "./Drawing.js";
+import MenuBtn from "../MenuBtn";
+import UndoBtn from "../UndoBtn";
 import Button from "../Button";
+import Notification from "../Notification";
 
 class DrawArea extends React.Component {
   constructor(props) {
@@ -14,7 +18,8 @@ class DrawArea extends React.Component {
     this.state = {
       lines: [],
       isDrawing: false,
-      isReplaying: false
+      isReplaying: false,
+      menuVisible: false
     };
   }
 
@@ -31,6 +36,10 @@ class DrawArea extends React.Component {
   }
 
   handleStartLine(e) {
+    // Abort if target is menu or undobutton
+    if (e.target.dataset.stopBubbling) {
+      return;
+    }
     const { isReplaying } = this.state;
     const isMouseMove = e.button === 0;
     const isTouchMove = e.touches && e.touches.length === 1;
@@ -55,6 +64,7 @@ class DrawArea extends React.Component {
 
     // Disable drawing
     this.setState({
+      menuVisible: false,
       isReplaying: true
     });
 
@@ -86,6 +96,10 @@ class DrawArea extends React.Component {
     if (!this.state.isDrawing) {
       return;
     }
+    // Abort if target is menu or undobutton
+    if (e.target.dataset.stopBubbling) {
+      return;
+    }
     const isMouseMove = e.button === 0;
     const input = isMouseMove ? e : e.touches[0];
     const point = this.relativeCoordinatesForEvent(input);
@@ -106,6 +120,13 @@ class DrawArea extends React.Component {
     if (e.keyCode === 90 && (e.ctrlKey || e.metaKey)) {
       this.undoLastPath();
     }
+  }
+
+  toggleMenu(e) {
+    e.preventDefault();
+    this.setState({
+      menuVisible: !this.state.menuVisible
+    });
   }
 
   undoLastPath() {
@@ -132,20 +153,32 @@ class DrawArea extends React.Component {
 
   render() {
     return (
-      <section
-        className="draw-area"
-        ref="drawArea"
-        onMouseDown={this.handleStartLine}
-        onMouseMove={this.handleLineMove}
-        onTouchStart={this.handleStartLine}
-        onTouchMove={this.handleLineMove}
-      >
-        <Drawing lines={this.state.lines} />
-        <aside className="draw-area__actions">
-          <Button onClick={this.replayDrawing}>Replay</Button>
-          <Button onClick={() => this.props.submit(this.state.lines)}>Submit</Button>
-        </aside>
-      </section>
+      <div>
+        <View isFull isVcentered isVisible={!this.state.menuVisible}>
+          <section
+            className="draw-area"
+            ref="drawArea"
+            onMouseDown={this.handleStartLine}
+            onMouseMove={this.handleLineMove}
+            onTouchStart={this.handleStartLine}
+            onTouchMove={this.handleLineMove}
+          >
+            <Notification>
+              <p>Draw the {this.props.bodyPart}!</p>
+            </Notification>
+            <Drawing lines={this.state.lines} />
+            <MenuBtn onClick={this.toggleMenu} />
+            <UndoBtn onClick={this.undoLastPath} />
+          </section>
+        </View>
+        <View isDark isBack isVspaced isVisible={this.state.menuVisible}>
+          <Button onClick={this.replayDrawing}>View replay</Button>
+          <Button onClick={() => this.props.onSubmit(this.state.lines)}>
+            Submit drawing
+          </Button>
+          <Button onClick={this.toggleMenu}>Close menu</Button>
+        </View>
+      </div>
     );
   }
 }

@@ -23,6 +23,12 @@ export function submitDrawing({ drawingId, bodyPart, drawingData }) {
 
 export async function createUser(userName) {
   const user = await firebase.auth().signInAnonymously();
+
+  // Add username to anonymous profile
+  user.updateProfile({
+    displayName: userName
+  });
+
   firebase
     .database()
     .ref(`users/${user.uid}`)

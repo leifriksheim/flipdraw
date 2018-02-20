@@ -23,13 +23,9 @@
   width: 100%;
 }
 
-.landing-screen {
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px;
-  justify-content: space-between;
+.main {
+  position: relative;
+  perspective: 800px;
 }
 
 @media screen and (min-width: 600px) {
