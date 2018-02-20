@@ -1,0 +1,20 @@
+.menu-btn {
+  position: absolute;
+  width: 50px;
+  padding: 15px;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  border: 0;
+}
+
+.menu-btn__line {
+  display: block;
+  height: 2px;
+  width: 100%;
+  margin-bottom: 5px;
+  background: black;
+}
+.menu-btn__line:last-child {
+  margin-bottom: 0;
+}

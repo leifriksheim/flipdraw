@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { createUser, findDrawing, createNewDrawing } from "../firebase";
 import * as firebase from "firebase";
 import Button from "../components/Button";
+import View from "../components/View";
 
 class ThankYouScreen extends React.Component {
   constructor(props) {
@@ -24,13 +25,13 @@ class ThankYouScreen extends React.Component {
 
   render() {
     return (
-      <div className="section --full-height --center-v --center-h">
+      <View isFull isVcentered isVisible>
         <h1 className="logo">
           <span className="logo__flipped">Thank</span>You!
         </h1>
         <Button onClick={this.handleNewDrawing}>Draw a new one</Button>
         <Button onClick={this.handleAllDrawings}>See all your drawings</Button>
-      </div>
+      </View>
     );
   }
 }

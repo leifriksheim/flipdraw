@@ -18,7 +18,10 @@
 
 .view.--dark {
   background: #1b4353;
-  // clip-path: polygon(0% 0%, 100% 0%, 98% 100%, 2% 100%);
+}
+
+.view.--full {
+  padding: 0;
 }
 
 .view.--back {
@@ -31,6 +34,10 @@
 
 .view.--vcenter {
   justify-content: center;
+}
+
+.view.--vspaced {
+  justify-content: space-around;
 }
 
 @media screen and (min-width: 800px) {

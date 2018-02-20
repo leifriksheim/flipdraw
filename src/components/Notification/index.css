@@ -1,0 +1,32 @@
+.notification {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  -ms-flex-pack: center;
+  text-align: center;
+  background: #0b3b61d4;
+  font-weight: 900;
+  font-style: italic;
+  color: white;
+  z-index: 900;
+  animation: hide 3s cubic-bezier(0.46, 0.03, 0.52, 0.96) both;
+}
+
+@keyframes hide {
+  0 {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

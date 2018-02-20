@@ -1,6 +1,10 @@
 import React from "react";
 import DrawArea from "../components/DrawArea";
 import autoBind from "react-autobind";
+import Rotater from "../components/Rotater";
+import Loader from "../components/Loader";
+import View from "../components/View";
+
 import { firebase, db, submitDrawing, getRandomBodypart } from "../firebase/";
 
 class DrawingScreen extends React.Component {
@@ -8,7 +12,8 @@ class DrawingScreen extends React.Component {
     super(props);
     autoBind(this);
     this.state = {
-      bodyPart: ""
+      bodyPart: "",
+      isLoading: true
     };
   }
 
@@ -21,7 +26,8 @@ class DrawingScreen extends React.Component {
     }
     // Set the random body part to state
     this.setState({
-      bodyPart: bodyPart
+      bodyPart: bodyPart,
+      isLoading: false
     });
     // Set the given bodyPart to inProgress so other people can't draw on the same part
     this.inProgress = db.ref(
@@ -32,12 +38,12 @@ class DrawingScreen extends React.Component {
     this.inProgress.onDisconnect().set(false);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     // Remove inProgress status if user submits drawing or leaves the route
     this.inProgress.set(false);
   }
 
-  submit(drawingData) {
+  handleSubmit(drawingData) {
     submitDrawing({
       drawingId: this.props.match.params.id,
       drawingData: drawingData,
@@ -47,9 +53,14 @@ class DrawingScreen extends React.Component {
   }
 
   render() {
-    return (
-      <div className="section --full-height --center-v --center-h">
-        <DrawArea submit={this.submit} />
+    return this.state.isLoading ? (
+      <View isVisible isVcentered>
+        <Loader />
+      </View>
+    ) : (
+      <div>
+        <Rotater />
+        <DrawArea bodyPart={this.state.bodyPart} onSubmit={this.handleSubmit} />
       </div>
     );
   }
