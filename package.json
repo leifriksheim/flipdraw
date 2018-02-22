@@ -8,6 +8,7 @@
     "firebase-admin": "^5.8.2",
     "firebase-functions": "^0.8.1",
     "prettier": "^1.10.2",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-autobind": "^1.0.6",
     "react-dom": "^16.2.0",

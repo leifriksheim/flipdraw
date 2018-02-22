@@ -5,7 +5,8 @@ import Rotater from "../components/Rotater";
 import Loader from "../components/Loader";
 import View from "../components/View";
 
-import { firebase, db, submitDrawing, getRandomBodypart } from "../firebase/";
+import { db } from "../firebase";
+import { submitDrawing, getRandomBodypart } from "../firebase/drawings";
 
 class DrawingScreen extends React.Component {
   constructor(props) {

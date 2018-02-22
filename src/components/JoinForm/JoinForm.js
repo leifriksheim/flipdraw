@@ -1,29 +1,28 @@
 import React from "react";
 import "./index.css";
 
-import cx from "classnames";
-
 import Input from "../Input";
 import Button from "../Button";
 
-function JoinForm(props) {
-  const formClass = cx({
-    "join-form": true,
-    "--visible": props.isVisible
-  });
-
+function JoinForm({ userName = "", onChange, onSubmit, isSubmitting }) {
   return (
-    <div className={formClass}>
-      <form className="join-form__inner" onSubmit={props.onSubmit}>
-        <h1 className="--inverted">Ahoi!</h1>
-        <p>You must be new here. Pick a name!</p>
+    <div className="join-form">
+      <h1 className="--inverted">Ahoi!</h1>
+      <p className="white">You must be new here. Pick a name!</p>
+      <form
+        className="join-form__inner"
+        onSubmit={onSubmit}
+        disabled={isSubmitting}
+      >
         <Input
-          name="username"
-          placeholder="Enter username"
-          value={props.userName}
-          onChange={props.onChange}
+          name="displayName"
+          placeholder="Enter name"
+          value={userName}
+          onChange={onChange}
         />
-        <Button type="submit">I'm ready!</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          I'm ready!
+        </Button>
       </form>
     </div>
   );

@@ -12,8 +12,6 @@
   transform-style: preserve-3d;
   transform: rotateX(180deg);
   transition: transform 0.7s cubic-bezier(0.69, -0.34, 0.46, 1);
-  // clip-path: polygon(2% 1%, 98% 1%, 100% 100%, 0% 100%);
-  // clip-path: polygon(2% 2%, 97% 3%, 99% 97%, 4% 98%);
 }
 
 .view.--dark {

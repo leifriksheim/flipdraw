@@ -1,8 +1,9 @@
 import React from "react";
 import autoBind from "react-autobind";
+import cx from "classnames";
 import { withRouter } from "react-router-dom";
-import "./index.css";
 import { delay } from "../../utilities/delay";
+import "./index.css";
 
 import View from "../View";
 import Drawing from "./Drawing.js";
@@ -152,11 +153,17 @@ class DrawArea extends React.Component {
   }
 
   render() {
+    const drawAreaClass = cx({
+      "draw-area": true,
+      "--head": this.props.bodyPart === "head",
+      "--body": this.props.bodyPart === "body",
+      "--legs": this.props.bodyPart === "legs"
+    });
     return (
       <div>
         <View isFull isVcentered isVisible={!this.state.menuVisible}>
           <section
-            className="draw-area"
+            className={drawAreaClass}
             ref="drawArea"
             onMouseDown={this.handleStartLine}
             onMouseMove={this.handleLineMove}
