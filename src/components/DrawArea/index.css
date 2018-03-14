@@ -17,13 +17,30 @@
 .draw-area:after {
   content: "";
   display: block;
+  position: absolute;
+  z-index: -1;
+}
+
+.draw-area.--head:after {
   top: 0;
   left: 0;
-  width: 107%;
-  height: 107%;
-  position: absolute;
-  background-image: url("../../assets/head-bg.svg");
-  z-index: -1;
+  width: 106.8%;
+  height: 106%;
+  background-image: url("../../assets/bg-head.svg");
+}
+.draw-area.--body:after {
+  top: -2.7%;
+  left: -4%;
+  width: 110%;
+  height: 108%;
+  background-image: url("../../assets/bg-body.svg");
+}
+.draw-area.--legs:after {
+  bottom: 0;
+  right: 0;
+  width: 106.7%;
+  height: 103.7%;
+  background-image: url("../../assets/bg-legs.svg");
 }
 
 .draw-area__actions {

@@ -30,3 +30,18 @@ p.white {
   font-size: 14px;
   text-align: center;
 }
+
+.show-on-desktop {
+  display: none;
+}
+@media screen and (min-width: 1040px) {
+  .show-on-desktop {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1040px) {
+  .show-on-mobile {
+    display: none;
+  }
+}

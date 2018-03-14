@@ -1,8 +1,5 @@
 import React from "react";
 import autoBind from "react-autobind";
-import { withRouter } from "react-router-dom";
-import { createUser, findDrawing, createNewDrawing } from "../firebase";
-import * as firebase from "firebase";
 import Button from "../components/Button";
 import View from "../components/View";
 

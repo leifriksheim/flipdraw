@@ -4,14 +4,17 @@ import "./index.css";
 
 import cx from "classnames";
 
-function Avatar({ isVisible, displayName = "?" }) {
+function Avatar({ isVisible, user }) {
   const avatarClass = cx({
     avatar: true,
     "--visible": isVisible
   });
+
+  const name = (user && user.displayName) || "?";
+
   return (
     <Link to="/all-drawings" className={avatarClass}>
-      {displayName.charAt(0)}
+      {name.charAt(0)}
     </Link>
   );
 }
