@@ -1,44 +1,50 @@
 import React from "react";
-import Drawings from "../components/DrawArea/Drawing.js";
 import autoBind from "react-autobind";
+import { Link } from "react-router-dom";
+
+import { auth } from "../firebase";
 import { getAllDrawings } from "../firebase/drawings";
+
+import Loader from "../components/Loader";
+import View from "../components/View";
 
 class AllDrawings extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
     this.state = {
-      allDrawings: []
+      allDrawings: [],
+      isLoading: true
     };
   }
 
   async componentDidMount() {
-    // firebase.auth().onAuthStateChanged(async user => {
-    //   if (user) {
-    //     // User is signed in.
-    //     const uid = user.uid;
-    //     const allDrawings = await getAllDrawings(uid);
-    //     const allDrawingsArray = Object.keys(allDrawings).map(drawingId => {
-    //       return allDrawings[drawingId];
-    //     });
-    //     this.setState({
-    //       allDrawings: allDrawingsArray
-    //     });
-    //     // ...
-    //   } else {
-    //     // User is signed out.
-    //     // ...
-    //   }
-    // });
+    const currentUser = auth.currentUser;
+    const allDrawings = await getAllDrawings(currentUser.uid);
+    this.setState({
+      allDrawings: allDrawings,
+      isLoading: false
+    });
   }
 
   render() {
-    return (
-      <div className="section --full-height --center-v --center-h">
-        {this.state.allDrawings.map((drawing, index) => {
-          return <div>Drawing {index + 1}</div>;
+    const { isLoading, allDrawings } = this.state;
+
+    return isLoading ? (
+      <View isVisible isVcentered>
+        <Loader />
+      </View>
+    ) : (
+      <View isVisible isVcentered>
+        <p>Drawings!</p>
+        {Object.keys(allDrawings).map((id, index) => {
+          return (
+            <Link to={`/drawing/${id}`} key={id}>
+              View Drawing {index + 1}: {id}
+            </Link>
+          );
         })}
-      </div>
+      </View>
     );
   }
 }

@@ -4,10 +4,11 @@ import autoBind from "react-autobind";
 import { isAuthenticated } from "./firebase";
 
 import AuthHOC from "./components/AuthHOC";
-import StartScreen from "./routes/StartScreen.js";
-import DrawingScreen from "./routes/DrawingScreen.js";
-import ThankYouScreen from "./routes/ThankYouScreen.js";
-import AllDrawings from "./routes/AllDrawings.js";
+import StartScreen from "./routes/StartScreen";
+import DrawingScreen from "./routes/DrawingScreen";
+import ThankYouScreen from "./routes/ThankYouScreen";
+import AllDrawings from "./routes/AllDrawings";
+import SingleDrawing from "./routes/SingleDrawing";
 
 import "./App.css";
 
@@ -24,6 +25,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={StartScreen} />
           <ProtectedRoute path="/draw/:id" component={DrawingScreen} />
+          <ProtectedRoute path="/drawing/:id" component={SingleDrawing} />
           <ProtectedRoute path="/thank-you" component={ThankYouScreen} />
           <ProtectedRoute path="/all-drawings" component={AllDrawings} />
         </Switch>
