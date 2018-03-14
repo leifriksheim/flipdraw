@@ -28,16 +28,16 @@ exports.drawingCompleted = functions.database
         .remove();
       admin
         .database()
-        .ref(`/users/${parts.head.uid}/drawings`)
-        .push(parts);
+        .ref(`/users/${parts.head.uid}/drawings/${drawingId}`)
+        .set(true);
       admin
         .database()
-        .ref(`/users/${parts.body.uid}/drawings`)
-        .push(parts);
+        .ref(`/users/${parts.body.uid}/drawings/${drawingId}`)
+        .set(true);
       admin
         .database()
-        .ref(`/users/${parts.legs.uid}/drawings`)
-        .push(parts);
+        .ref(`/users/${parts.legs.uid}/drawings/${drawingId}`)
+        .set(true);
     }
   });
 
