@@ -20,7 +20,7 @@ class AllDrawings extends React.Component {
 
   async componentDidMount() {
     const currentUser = auth.currentUser;
-    const allDrawings = await getAllDrawings(currentUser.uid);
+    const allDrawings = (await getAllDrawings(currentUser.uid)) || {};
     this.setState({
       allDrawings: allDrawings,
       isLoading: false

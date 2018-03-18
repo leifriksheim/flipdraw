@@ -3,14 +3,14 @@ import autoBind from "react-autobind";
 import cx from "classnames";
 import { withRouter } from "react-router-dom";
 import { delay } from "../../utilities/delay";
+import { toggleFullScreen } from "../../utilities/dom";
 import "./index.css";
 
 import View from "../View";
 import Drawing from "./Drawing.js";
-import MenuBtn from "../MenuBtn";
-import UndoBtn from "../UndoBtn";
 import Button from "../Button";
 import Notification from "../Notification";
+import Toolbar from "../Toolbar";
 
 class DrawArea extends React.Component {
   constructor(props) {
@@ -119,18 +119,22 @@ class DrawArea extends React.Component {
 
   handleShortCuts(e) {
     if (e.keyCode === 90 && (e.ctrlKey || e.metaKey)) {
-      this.undoLastPath();
+      this.handleUndo();
     }
   }
 
-  toggleMenu(e) {
+  handleToggleFullScreen() {
+    toggleFullScreen("drawing-screen");
+  }
+
+  handleToggleMenu(e) {
     e.preventDefault();
     this.setState({
       menuVisible: !this.state.menuVisible
     });
   }
 
-  undoLastPath() {
+  handleUndo() {
     const lines = [...this.state.lines];
     lines.splice(lines.length - 1, 1);
 
@@ -160,7 +164,7 @@ class DrawArea extends React.Component {
       "--legs": this.props.bodyPart === "legs"
     });
     return (
-      <div>
+      <div id="drawing-screen">
         <View isFull isVcentered isVisible={!this.state.menuVisible}>
           <section
             className={drawAreaClass}
@@ -173,9 +177,13 @@ class DrawArea extends React.Component {
             <Notification>
               <p>Draw the {this.props.bodyPart}!</p>
             </Notification>
+            <Toolbar
+              onUndo={this.handleUndo}
+              onShowMenu={this.handleToggleMenu}
+              onFullScreen={this.handleToggleFullScreen}
+              onSubmit={() => this.props.onSubmit(this.state.lines)}
+            />
             <Drawing lines={this.state.lines} />
-            <MenuBtn onClick={this.toggleMenu} />
-            <UndoBtn onClick={this.undoLastPath} />
           </section>
         </View>
         <View isDark isBack isVspaced isVisible={this.state.menuVisible}>
@@ -183,7 +191,7 @@ class DrawArea extends React.Component {
           <Button onClick={() => this.props.onSubmit(this.state.lines)}>
             Submit drawing
           </Button>
-          <Button onClick={this.toggleMenu}>Close menu</Button>
+          <Button onClick={this.handleToggleMenu}>Close menu</Button>
         </View>
       </div>
     );
