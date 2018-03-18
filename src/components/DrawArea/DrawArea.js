@@ -128,7 +128,7 @@ class DrawArea extends React.Component {
   }
 
   handleToggleFullScreen() {
-    toggleFullScreen("drawing-screen");
+    toggleFullScreen("drawing-area");
   }
 
   handleToggleMenu(e) {
@@ -172,7 +172,7 @@ class DrawArea extends React.Component {
 
     return (
       <div id="drawing-screen">
-        <View isFull isVcentered isVisible={!menuVisible}>
+        <View isFull isVcentered isVisible={!menuVisible} id="drawing-area">
           <section
             className={drawAreaClass}
             ref="drawArea"

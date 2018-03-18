@@ -15,7 +15,11 @@ function View(props) {
     "--visible": props.isVisible
   });
 
-  return <section className={viewClass}>{props.children}</section>;
+  return (
+    <div className={viewClass} id={props.id}>
+      {props.children}
+    </div>
+  );
 }
 
 export default View;
