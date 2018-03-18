@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import autoBind from "react-autobind";
-import { createUser } from "../firebase/user";
+import { createUser, logInUser } from "../firebase/user";
 import { findDrawing, createNewDrawing } from "../firebase/drawings";
 
 import View from "../components/View";
@@ -11,13 +11,16 @@ import DemoDrawing from "../components/DemoDrawing";
 import Loader from "../components/Loader";
 import JoinForm from "../components/JoinForm";
 import Avatar from "../components/Avatar";
+import LogInBtn from "../components/LogInBtn";
 
 class StartScreen extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
     this.state = {
-      newUserName: "",
+      userName: "",
+      userPassword: "",
+      newUser: true,
       pageFlipped: false,
       isSubmitting: false
     };
@@ -38,10 +41,24 @@ class StartScreen extends React.Component {
     });
   }
 
-  updateDisplayName(e) {
-    const newUserName = e.target.value;
+  toggleLogin() {
     this.setState({
-      newUserName
+      newUser: false,
+      pageFlipped: !this.state.pageFlipped
+    });
+  }
+
+  updateDisplayName(e) {
+    const userName = e.target.value;
+    this.setState({
+      userName
+    });
+  }
+
+  updatePassword(e) {
+    const userPassword = e.target.value;
+    this.setState({
+      userPassword
     });
   }
 
@@ -54,7 +71,17 @@ class StartScreen extends React.Component {
 
     // Create user only if not logged in
     if (!this.context.authUser) {
-      await createUser(this.state.newUserName);
+      if (this.state.newUser) {
+        await createUser(
+        this.state.userName,
+        this.state.userPassword
+        );
+      } else {
+        await logInUser(
+        this.state.userName,
+        this.state.userPassword
+        );
+      }
     }
 
     const existingDrawing = await findDrawing();
@@ -68,7 +95,7 @@ class StartScreen extends React.Component {
   }
 
   render() {
-    const { newUserName, pageFlipped, isSubmitting } = this.state;
+    const { userName, userPassword, pageFlipped, isSubmitting } = this.state;
     const { authLoading, authUser } = this.context;
     return (
       <div>
@@ -76,6 +103,7 @@ class StartScreen extends React.Component {
           <DemoDrawing />
           <Logo />
           <Avatar isVisible={authUser} user={authUser} />
+          <LogInBtn isVisible={!authUser} onClick={this.toggleLogin} />
           {authLoading || isSubmitting ? (
             <Loader />
           ) : (
@@ -90,10 +118,13 @@ class StartScreen extends React.Component {
 
         <View isDark isBack isVspaced isVisible={pageFlipped}>
           <JoinForm
+            newUser={this.state.newUser}
             isSubmitting={isSubmitting}
-            userName={newUserName}
-            onChange={this.updateDisplayName}
-            onSubmit={this.startGame}
+            userName={userName}
+            password={userPassword}
+            onChangeUserName={this.updateDisplayName}
+            onChangePassword={this.updatePassword}
+            handleSubmit={this.startGame}
           />
         </View>
       </div>
