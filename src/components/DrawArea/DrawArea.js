@@ -157,12 +157,14 @@ class DrawArea extends React.Component {
   }
 
   render() {
+    const { bodyPart, onSubmit } = this.props;
     const drawAreaClass = cx({
       "draw-area": true,
-      "--head": this.props.bodyPart === "head",
-      "--body": this.props.bodyPart === "body",
-      "--legs": this.props.bodyPart === "legs"
+      "--head": bodyPart === "head",
+      "--body": bodyPart === "body",
+      "--legs": bodyPart === "legs"
     });
+
     return (
       <div id="drawing-screen">
         <View isFull isVcentered isVisible={!this.state.menuVisible}>
@@ -175,20 +177,20 @@ class DrawArea extends React.Component {
             onTouchMove={this.handleLineMove}
           >
             <Notification>
-              <p>Draw the {this.props.bodyPart}!</p>
+              <p>Draw the {bodyPart}!</p>
             </Notification>
             <Toolbar
               onUndo={this.handleUndo}
               onShowMenu={this.handleToggleMenu}
               onFullScreen={this.handleToggleFullScreen}
-              onSubmit={() => this.props.onSubmit(this.state.lines)}
+              onSubmit={() => onSubmit(this.state.lines)}
             />
             <Drawing lines={this.state.lines} />
           </section>
         </View>
         <View isDark isBack isVspaced isVisible={this.state.menuVisible}>
           <Button onClick={this.replayDrawing}>View replay</Button>
-          <Button onClick={() => this.props.onSubmit(this.state.lines)}>
+          <Button onClick={() => onSubmit(this.state.lines)}>
             Submit drawing
           </Button>
           <Button onClick={this.handleToggleMenu}>Close menu</Button>

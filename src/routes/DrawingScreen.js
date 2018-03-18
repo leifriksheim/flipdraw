@@ -6,13 +6,15 @@ import Loader from "../components/Loader";
 import View from "../components/View";
 
 import { db } from "../firebase";
-import { submitDrawing, getRandomBodypart } from "../firebase/drawings";
+import { pickBodyPart } from "../utilities/drawing";
+import { submitDrawing, getDrawingById } from "../firebase/drawings";
 
 class DrawingScreen extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
     this.state = {
+      drawingData: {},
       bodyPart: "",
       isLoading: true
     };
@@ -21,12 +23,15 @@ class DrawingScreen extends React.Component {
   async componentDidMount() {
     // Initial data
     const drawingId = this.props.match.params.id;
-    const bodyPart = await getRandomBodypart(drawingId);
+    const drawingData = await getDrawingById(drawingId);
+    const bodyPart = pickBodyPart(drawingData);
+
     if (!bodyPart) {
       this.props.history.push("/");
     }
     // Set the random body part to state
     this.setState({
+      drawingData: drawingData,
       bodyPart: bodyPart,
       isLoading: false
     });
@@ -44,10 +49,10 @@ class DrawingScreen extends React.Component {
     this.inProgress.set(false);
   }
 
-  handleSubmit(drawingData) {
+  handleSubmit(lines) {
     submitDrawing({
       drawingId: this.props.match.params.id,
-      drawingData: drawingData,
+      lines: lines,
       bodyPart: this.state.bodyPart
     });
     this.props.history.push("/thank-you");
@@ -61,7 +66,11 @@ class DrawingScreen extends React.Component {
     ) : (
       <div>
         <Rotater />
-        <DrawArea bodyPart={this.state.bodyPart} onSubmit={this.handleSubmit} />
+        <DrawArea
+          bodyPart={this.state.bodyPart}
+          drawingData={this.state.drawingData}
+          onSubmit={this.handleSubmit}
+        />
       </div>
     );
   }
