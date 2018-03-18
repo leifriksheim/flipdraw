@@ -29,15 +29,15 @@ exports.drawingCompleted = functions.database
       admin
         .database()
         .ref(`/users/${parts.head.uid}/drawings/${drawingId}`)
-        .set(true);
+        .set({viewed: false});
       admin
         .database()
         .ref(`/users/${parts.body.uid}/drawings/${drawingId}`)
-        .set(true);
+        .set({viewed: false});
       admin
         .database()
         .ref(`/users/${parts.legs.uid}/drawings/${drawingId}`)
-        .set(true);
+        .set({viewed: false});
     }
   });
 
