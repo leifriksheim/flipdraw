@@ -4,7 +4,7 @@ import "./index.css";
 function Input(props) {
   return (
     <input
-      type="text"
+      type={props.type}
       className="input"
       value={props.value}
       placeholder={props.placeholder}
