@@ -2,10 +2,11 @@
   position: absolute;
   right: 0;
   display: flex;
+  padding: 20px 10px;
   flex-direction: column;
   height: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   user-select: none;
   transition: opacity 1s ease;
 }
@@ -24,7 +25,8 @@
   flex-shrink: 0;
   width: 40px;
   height: 40px;
-  margin: 10px 20px;
+  margin: 0;
+  padding: 0;
   background: #1d70a2;
   border-radius: 50%;
   border: 0;
@@ -36,6 +38,6 @@
 }
 
 .toolbar__button img {
-  padding: 3px;
+  padding: 5px 12px;
   width: 100%;
 }

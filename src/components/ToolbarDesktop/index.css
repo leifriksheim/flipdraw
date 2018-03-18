@@ -2,6 +2,7 @@
   display: none;
   width: 100%;
   margin: 0 auto;
+  padding: 20px 0;
   max-width: 640px;
   align-items: center;
   justify-content: space-between;
@@ -13,24 +14,4 @@
   .toolbar-desktop {
     display: flex;
   }
-}
-
-.toolbar__button {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  margin: 10px 20px;
-  background: #1d70a2;
-  border-radius: 50%;
-  border: 0;
-}
-
-.toolbar__button-label {
-  visibility: hidden;
-  position: absolute;
-}
-
-.toolbar__button img {
-  padding: 3px;
-  width: 100%;
 }
