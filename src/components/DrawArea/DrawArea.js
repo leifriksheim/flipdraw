@@ -4,13 +4,16 @@ import cx from "classnames";
 import { withRouter } from "react-router-dom";
 import { delay } from "../../utilities/delay";
 import { toggleFullScreen } from "../../utilities/dom";
+import { findOverlaps } from "../../utilities/drawing";
 import "./index.css";
 
 import View from "../View";
-import Drawing from "./Drawing.js";
+import Canvas from "../Canvas";
+import Overlap from "../Overlap";
 import Button from "../Button";
 import Notification from "../Notification";
 import Toolbar from "../Toolbar";
+import ToolbarDesktop from "../ToolbarDesktop";
 
 class DrawArea extends React.Component {
   constructor(props) {
@@ -18,6 +21,7 @@ class DrawArea extends React.Component {
     autoBind(this);
     this.state = {
       lines: [],
+      overlaps: findOverlaps(props.bodyPart, props.drawingData.parts),
       isDrawing: false,
       isReplaying: false,
       menuVisible: false
@@ -158,6 +162,7 @@ class DrawArea extends React.Component {
 
   render() {
     const { bodyPart, onSubmit } = this.props;
+    const { lines, overlaps, isDrawing, menuVisible } = this.state;
     const drawAreaClass = cx({
       "draw-area": true,
       "--head": bodyPart === "head",
@@ -167,7 +172,7 @@ class DrawArea extends React.Component {
 
     return (
       <div id="drawing-screen">
-        <View isFull isVcentered isVisible={!this.state.menuVisible}>
+        <View isFull isVcentered isVisible={!menuVisible}>
           <section
             className={drawAreaClass}
             ref="drawArea"
@@ -183,16 +188,21 @@ class DrawArea extends React.Component {
               onUndo={this.handleUndo}
               onShowMenu={this.handleToggleMenu}
               onFullScreen={this.handleToggleFullScreen}
-              onSubmit={() => onSubmit(this.state.lines)}
+              onSubmit={() => onSubmit(lines)}
+              isFaded={isDrawing}
             />
-            <Drawing lines={this.state.lines} />
+            <Overlap position="top" lines={overlaps.top} />
+            <Overlap position="bottom" lines={overlaps.bottom} />
+            <Canvas lines={lines} />
           </section>
+          <ToolbarDesktop
+            onUndo={this.handleUndo}
+            onSubmit={() => onSubmit(lines)}
+          />
         </View>
-        <View isDark isBack isVspaced isVisible={this.state.menuVisible}>
+        <View isDark isBack isVspaced isVisible={menuVisible}>
           <Button onClick={this.replayDrawing}>View replay</Button>
-          <Button onClick={() => onSubmit(this.state.lines)}>
-            Submit drawing
-          </Button>
+          <Button onClick={() => onSubmit(lines)}>Submit drawing</Button>
           <Button onClick={this.handleToggleMenu}>Close menu</Button>
         </View>
       </div>

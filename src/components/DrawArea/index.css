@@ -6,6 +6,7 @@
   max-width: 640px;
   display: block;
   z-index: 1;
+  overflow: hidden;
 }
 @media screen and (min-width: 800px) {
   .draw-area {
@@ -51,16 +52,4 @@
     width: 100%;
     padding-top: 20px;
   }
-}
-
-.drawing {
-  cursor: url("../../assets/cursor.svg"), auto;
-}
-
-.drawing__path {
-  fill: none;
-  stroke-width: 10px;
-  stroke: black;
-  stroke-linejoin: round;
-  stroke-linecap: round;
 }

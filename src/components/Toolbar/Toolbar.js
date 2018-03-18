@@ -1,4 +1,5 @@
 import React from "react";
+import cx from "classnames";
 import "./index.css";
 
 import undo from "../../assets/undo.svg";
@@ -7,9 +8,13 @@ import menu from "../../assets/menu.svg";
 import check from "../../assets/check.svg";
 import ToolbarButton from "./ToolbarButton";
 
-function Toolbar({ onShowMenu, onFullScreen, onUndo, onSubmit }) {
+function Toolbar({ isFaded, onShowMenu, onFullScreen, onUndo, onSubmit }) {
+  const drawAreaClass = cx({
+    toolbar: true,
+    "--faded": isFaded
+  });
   return (
-    <div data-stop-bubbling className="toolbar">
+    <div data-stop-bubbling className={drawAreaClass}>
       <ToolbarButton icon={menu} label="menu" onClick={onShowMenu} />
       <ToolbarButton icon={zoom} label="full screen" onClick={onFullScreen} />
       <ToolbarButton icon={undo} label="undo" onClick={onUndo} />
