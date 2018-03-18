@@ -3,14 +3,17 @@ import autoBind from "react-autobind";
 import cx from "classnames";
 import { withRouter } from "react-router-dom";
 import { delay } from "../../utilities/delay";
+import { toggleFullScreen } from "../../utilities/dom";
+import { findOverlaps } from "../../utilities/drawing";
 import "./index.css";
 
 import View from "../View";
-import Drawing from "./Drawing.js";
-import MenuBtn from "../MenuBtn";
-import UndoBtn from "../UndoBtn";
+import Canvas from "../Canvas";
+import Overlap from "../Overlap";
 import Button from "../Button";
 import Notification from "../Notification";
+import Toolbar from "../Toolbar";
+import ToolbarDesktop from "../ToolbarDesktop";
 
 class DrawArea extends React.Component {
   constructor(props) {
@@ -18,6 +21,7 @@ class DrawArea extends React.Component {
     autoBind(this);
     this.state = {
       lines: [],
+      overlaps: findOverlaps(props.bodyPart, props.drawingData.parts),
       isDrawing: false,
       isReplaying: false,
       menuVisible: false
@@ -119,18 +123,22 @@ class DrawArea extends React.Component {
 
   handleShortCuts(e) {
     if (e.keyCode === 90 && (e.ctrlKey || e.metaKey)) {
-      this.undoLastPath();
+      this.handleUndo();
     }
   }
 
-  toggleMenu(e) {
+  handleToggleFullScreen() {
+    toggleFullScreen("drawing-screen");
+  }
+
+  handleToggleMenu(e) {
     e.preventDefault();
     this.setState({
       menuVisible: !this.state.menuVisible
     });
   }
 
-  undoLastPath() {
+  handleUndo() {
     const lines = [...this.state.lines];
     lines.splice(lines.length - 1, 1);
 
@@ -153,15 +161,18 @@ class DrawArea extends React.Component {
   }
 
   render() {
+    const { bodyPart, onSubmit } = this.props;
+    const { lines, overlaps, isDrawing, menuVisible } = this.state;
     const drawAreaClass = cx({
       "draw-area": true,
-      "--head": this.props.bodyPart === "head",
-      "--body": this.props.bodyPart === "body",
-      "--legs": this.props.bodyPart === "legs"
+      "--head": bodyPart === "head",
+      "--body": bodyPart === "body",
+      "--legs": bodyPart === "legs"
     });
+
     return (
-      <div>
-        <View isFull isVcentered isVisible={!this.state.menuVisible}>
+      <div id="drawing-screen">
+        <View isFull isVcentered isVisible={!menuVisible}>
           <section
             className={drawAreaClass}
             ref="drawArea"
@@ -171,19 +182,28 @@ class DrawArea extends React.Component {
             onTouchMove={this.handleLineMove}
           >
             <Notification>
-              <p>Draw the {this.props.bodyPart}!</p>
+              <p>Draw the {bodyPart}!</p>
             </Notification>
-            <Drawing lines={this.state.lines} />
-            <MenuBtn onClick={this.toggleMenu} />
-            <UndoBtn onClick={this.undoLastPath} />
+            <Toolbar
+              onUndo={this.handleUndo}
+              onShowMenu={this.handleToggleMenu}
+              onFullScreen={this.handleToggleFullScreen}
+              onSubmit={() => onSubmit(lines)}
+              isFaded={isDrawing}
+            />
+            <Overlap position="top" lines={overlaps.top} />
+            <Overlap position="bottom" lines={overlaps.bottom} />
+            <Canvas lines={lines} />
           </section>
+          <ToolbarDesktop
+            onUndo={this.handleUndo}
+            onSubmit={() => onSubmit(lines)}
+          />
         </View>
-        <View isDark isBack isVspaced isVisible={this.state.menuVisible}>
+        <View isDark isBack isVspaced isVisible={menuVisible}>
           <Button onClick={this.replayDrawing}>View replay</Button>
-          <Button onClick={() => this.props.onSubmit(this.state.lines)}>
-            Submit drawing
-          </Button>
-          <Button onClick={this.toggleMenu}>Close menu</Button>
+          <Button onClick={() => onSubmit(lines)}>Submit drawing</Button>
+          <Button onClick={this.handleToggleMenu}>Close menu</Button>
         </View>
       </div>
     );

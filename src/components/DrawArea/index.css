@@ -2,10 +2,11 @@
   background: #fff;
   position: relative;
   margin: 0 auto;
-  width: 90%;
+  width: 100%;
   max-width: 640px;
   display: block;
   z-index: 1;
+  overflow: hidden;
 }
 @media screen and (min-width: 800px) {
   .draw-area {
@@ -14,6 +15,7 @@
   }
 }
 
+.draw-area:before,
 .draw-area:after {
   content: "";
   display: block;
@@ -21,26 +23,19 @@
   z-index: -1;
 }
 
-.draw-area.--head:after {
-  top: 0;
-  left: 0;
-  width: 106.8%;
-  height: 106%;
-  background-image: url("../../assets/bg-head.svg");
-}
+.draw-area.--head:after,
 .draw-area.--body:after {
-  top: -2.7%;
-  left: -4%;
-  width: 110%;
-  height: 108%;
-  background-image: url("../../assets/bg-body.svg");
+  top: 95%;
+  left: 0;
+  width: 100%;
+  border-bottom: 5px dotted rgba(0, 0, 0, 0.07);
 }
-.draw-area.--legs:after {
-  bottom: 0;
-  right: 0;
-  width: 106.7%;
-  height: 103.7%;
-  background-image: url("../../assets/bg-legs.svg");
+.draw-area.--body:before,
+.draw-area.--legs:before {
+  top: 5%;
+  left: 0;
+  width: 100%;
+  border-bottom: 5px dotted rgba(0, 0, 0, 0.07);
 }
 
 .draw-area__actions {
@@ -57,16 +52,4 @@
     width: 100%;
     padding-top: 20px;
   }
-}
-
-.drawing {
-  cursor: url("../../assets/cursor.svg"), auto;
-}
-
-.drawing__path {
-  fill: none;
-  stroke-width: 10px;
-  stroke: black;
-  stroke-linejoin: round;
-  stroke-linecap: round;
 }

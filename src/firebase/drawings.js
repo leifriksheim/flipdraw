@@ -1,10 +1,10 @@
 import { db, auth } from "./index";
 
-export function submitDrawing({ drawingId, bodyPart, drawingData }) {
+export function submitDrawing({ drawingId, bodyPart, lines }) {
   const currentUser = auth.currentUser;
 
   return db.ref(`drawings/${drawingId}/parts/${bodyPart}`).set({
-    data: drawingData,
+    data: lines,
     uid: currentUser.uid,
     isFinished: true,
     inProgress: false
@@ -64,6 +64,6 @@ export async function getRandomBodypart(drawingId) {
   if (!drawing.parts.head.isFinished) bodyParts.push("head");
   if (!drawing.parts.body.isFinished) bodyParts.push("body");
   if (!drawing.parts.legs.isFinished) bodyParts.push("legs");
-  // Return random body part from parts that are not finished
+  // pick random body part from parts that are not finished
   return bodyParts[Math.floor(Math.random() * bodyParts.length)];
 }

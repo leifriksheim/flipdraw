@@ -1,0 +1,36 @@
+.toolbar-desktop {
+  display: none;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 640px;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: opacity 1s ease;
+}
+
+@media screen and (min-width: 800px) {
+  .toolbar-desktop {
+    display: flex;
+  }
+}
+
+.toolbar__button {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  margin: 10px 20px;
+  background: #1d70a2;
+  border-radius: 50%;
+  border: 0;
+}
+
+.toolbar__button-label {
+  visibility: hidden;
+  position: absolute;
+}
+
+.toolbar__button img {
+  padding: 3px;
+  width: 100%;
+}

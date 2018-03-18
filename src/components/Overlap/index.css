@@ -1,0 +1,13 @@
+.overlap {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.overlap.--top {
+  top: -95%;
+}
+
+.overlap.--bottom {
+  top: 95%;
+}

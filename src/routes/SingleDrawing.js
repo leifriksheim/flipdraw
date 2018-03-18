@@ -2,8 +2,8 @@ import React from "react";
 import autoBind from "react-autobind";
 import Loader from "../components/Loader";
 import View from "../components/View";
+import Drawing from "../components/Drawing";
 
-import { db } from "../firebase";
 import { getDrawingById } from "../firebase/drawings";
 
 class SingleDrawing extends React.Component {
@@ -35,13 +35,19 @@ class SingleDrawing extends React.Component {
   }
 
   render() {
-    return this.state.isLoading ? (
+    const { isLoading, drawingData } = this.state;
+
+    return isLoading ? (
       <View isVisible isVcentered>
         <Loader />
       </View>
     ) : (
       <div>
-        <p>Draw here!</p>
+        <Drawing
+          head={drawingData.parts.head}
+          body={drawingData.parts.body}
+          legs={drawingData.parts.legs}
+        />
       </div>
     );
   }
