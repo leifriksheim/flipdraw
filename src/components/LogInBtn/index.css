@@ -1,0 +1,25 @@
+.login-btn {
+  position: fixed;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-weight: 900;
+  font-style: italic;
+  background: #fff;
+  color: #0b3b61;
+  text-decoration: none;
+  border-radius: 255px 15px 225px 15px/15px 235px 5px 275px;
+  opacity: 0;
+  transform: scale(0.3);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.login-btn.--visible {
+  transform: scale(1);
+  opacity: 1;
+}
