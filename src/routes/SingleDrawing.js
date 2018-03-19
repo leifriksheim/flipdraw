@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 import autoBind from "react-autobind";
 import Loader from "../components/Loader";
 import View from "../components/View";
@@ -21,8 +22,6 @@ class SingleDrawing extends React.Component {
     const drawingId = this.props.match.params.id;
     const drawingData = await getDrawingById(drawingId);
 
-    console.log(drawingData);
-
     // Set the random body part to state
     this.setState({
       drawingData: drawingData,
@@ -37,18 +36,31 @@ class SingleDrawing extends React.Component {
   render() {
     const { isLoading, drawingData } = this.state;
 
-    return isLoading ? (
-      <View isVisible isVcentered>
-        <Loader />
-      </View>
-    ) : (
-      <div>
+    if (isLoading) {
+      return (
+        <View isVisible isVcentered>
+          <Loader />
+        </View>
+      );
+    }
+
+    if (!isLoading && !drawingData) {
+      return (
+        <View isVisible isVcentered>
+          <p>Cannot find drawing :(</p>
+          <Link to="/all-drawings">Back</Link>
+        </View>
+      );
+    }
+
+    return (
+      <Fragment>
         <Drawing
           head={drawingData.parts.head}
           body={drawingData.parts.body}
           legs={drawingData.parts.legs}
         />
-      </div>
+      </Fragment>
     );
   }
 }
