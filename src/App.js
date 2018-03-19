@@ -15,6 +15,7 @@ import DrawingScreen from "./routes/DrawingScreen";
 import ThankYouScreen from "./routes/ThankYouScreen";
 import AllDrawings from "./routes/AllDrawings";
 import SingleDrawing from "./routes/SingleDrawing";
+import AllDrawingsPublic from "./routes/AllDrawingsPublic";
 
 import "./App.css";
 
@@ -36,6 +37,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={StartScreen} />
           <Route path="/drawing/:id" component={SingleDrawing} />
+          <Route path="/gallery" component={AllDrawingsPublic} />
           <ProtectedRoute
             authLoading={authLoading}
             path="/draw/:id"

@@ -3,7 +3,7 @@ import autoBind from "react-autobind";
 import { Link } from "react-router-dom";
 
 import { auth } from "../firebase";
-import { getAllDrawings } from "../firebase/drawings";
+import { getUserDrawings } from "../firebase/drawings";
 
 import Loader from "../components/Loader";
 import View from "../components/View";
@@ -20,7 +20,7 @@ class AllDrawings extends React.Component {
 
   async componentDidMount() {
     const currentUser = auth.currentUser;
-    const allDrawings = (await getAllDrawings(currentUser.uid)) || {};
+    const allDrawings = (await getUserDrawings(currentUser.uid)) || {};
     this.setState({
       allDrawings: allDrawings,
       isLoading: false

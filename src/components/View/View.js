@@ -12,7 +12,8 @@ function View(props) {
     "--vcenter-desktop": props.isVcenteredDesktop,
     "--dark": props.isDark,
     "--back": props.isBack,
-    "--visible": props.isVisible
+    "--visible": props.isVisible,
+    "--scrolling": props.isScrolling
   });
 
   return (

@@ -24,8 +24,13 @@ export async function findDrawing() {
   }
 }
 
-export async function getAllDrawings(uid) {
+export async function getUserDrawings(uid) {
   const allDrawings = await db.ref(`users/${uid}/drawings`).once("value");
+  return allDrawings.val();
+}
+
+export async function getAllDrawings() {
+  const allDrawings = await db.ref(`/drawings`).once("value");
   return allDrawings.val();
 }
 
