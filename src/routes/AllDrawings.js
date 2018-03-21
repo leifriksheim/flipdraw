@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { getUserDrawings } from "../firebase/drawings";
 
-import Loader from "../components/Loader";
 import View from "../components/View";
+import Loader from "../components/Loader";
+import Drawing from "../components/Drawing";
 
 class AllDrawings extends React.Component {
   constructor(props) {
@@ -40,6 +41,11 @@ class AllDrawings extends React.Component {
         {Object.keys(allDrawings).map((id, index) => {
           return (
             <Link to={`/drawing/${id}`} key={id}>
+              {/* <Drawing
+                head={allDrawings[id].parts.head}
+                body={allDrawings[id].parts.body}
+                legs={allDrawings[id].parts.legs}
+              /> */}
               View Drawing {index + 1}: {id}
             </Link>
           );

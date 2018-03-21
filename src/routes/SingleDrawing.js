@@ -55,11 +55,13 @@ class SingleDrawing extends React.Component {
 
     return (
       <Fragment>
+        <Link to="/all-drawings">Back</Link>
         <Drawing
           head={drawingData.parts.head}
           body={drawingData.parts.body}
           legs={drawingData.parts.legs}
         />
+        <p>Drawing by... </p>
       </Fragment>
     );
   }
