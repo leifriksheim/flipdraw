@@ -1,0 +1,19 @@
+.button-link {
+  display: inline-block;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 5px solid white;
+  background: transparent;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: white;
+  font-style: italic;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-link:focus,
+.button-link:hover {
+  border-color: #0b3b61;
+  outline: 0;
+}

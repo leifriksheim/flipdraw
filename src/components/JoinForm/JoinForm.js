@@ -2,7 +2,9 @@ import React from "react";
 import "./index.css";
 
 import Input from "../Input";
+import Flex from "../Flex";
 import Button from "../Button";
+import ButtonLink from "../ButtonLink";
 
 function JoinForm({
   userName = "",
@@ -10,10 +12,19 @@ function JoinForm({
   isNewAccount,
   onChange,
   onSubmit,
+  onToggleNewAccount,
   isSubmitting
 }) {
   return (
     <div className="join-form">
+      <Flex guttered justify="between">
+        <ButtonLink onClick={onToggleNewAccount} active={isNewAccount}>
+          Log in
+        </ButtonLink>
+        <ButtonLink onClick={onToggleNewAccount} active={isNewAccount}>
+          Register
+        </ButtonLink>
+      </Flex>
       <h1 className="--inverted">Ahoy!</h1>
       <p className="white">
         {isNewAccount

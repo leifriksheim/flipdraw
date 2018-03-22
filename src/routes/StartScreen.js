@@ -47,10 +47,10 @@ class StartScreen extends React.Component {
     });
   }
 
-  toggleLogin() {
+  toggleNewAccount() {
     this.setState({
-      isNewAccount: false,
-      pageFlipped: !this.state.pageFlipped
+      isNewAccount: !this.state.isNewAccount,
+      pageFlipped: true
     });
   }
 
@@ -85,13 +85,15 @@ class StartScreen extends React.Component {
     const { pageFlipped, isNewAccount, isSubmitting } = this.state;
     const { userName, userPassword } = this.state.fields;
     const { authLoading, authUser } = this.context;
+
     return (
       <div>
         <View isVisible={!pageFlipped} isVcenteredDesktop>
           <DemoDrawing />
           <Logo />
           <Avatar isVisible={authUser} user={authUser} />
-          <LogInBtn isVisible={!authUser} onClick={this.toggleLogin} />
+          <LogInBtn isVisible={!authUser} onClick={this.toggleNewAccount} />
+
           {authLoading || isSubmitting ? (
             <Loader />
           ) : (
@@ -109,6 +111,7 @@ class StartScreen extends React.Component {
             isNewAccount={isNewAccount}
             userName={userName}
             password={userPassword}
+            onToggleNewAccount={this.toggleNewAccount}
             onChange={this.handleChange}
             onSubmit={this.startGame}
             isSubmitting={isSubmitting}
