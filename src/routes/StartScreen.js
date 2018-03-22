@@ -18,10 +18,12 @@ class StartScreen extends React.Component {
     super(props);
     autoBind(this);
     this.state = {
-      userName: "",
-      userPassword: "",
-      newUser: true,
+      fields: {
+        userName: "",
+        userPassword: ""
+      },
       pageFlipped: false,
+      isNewAccount: true,
       isSubmitting: false
     };
   }
@@ -30,6 +32,10 @@ class StartScreen extends React.Component {
     authUser: PropTypes.object,
     authLoading: PropTypes.bool
   };
+
+  handleChange(key, value) {
+    this.setState({ fields: { ...this.state.fields, [key]: value } });
+  }
 
   togglePageFlip() {
     // Bypass new user form if logged in
@@ -43,22 +49,8 @@ class StartScreen extends React.Component {
 
   toggleLogin() {
     this.setState({
-      newUser: false,
+      isNewAccount: false,
       pageFlipped: !this.state.pageFlipped
-    });
-  }
-
-  updateDisplayName(e) {
-    const userName = e.target.value;
-    this.setState({
-      userName
-    });
-  }
-
-  updatePassword(e) {
-    const userPassword = e.target.value;
-    this.setState({
-      userPassword
     });
   }
 
@@ -71,21 +63,16 @@ class StartScreen extends React.Component {
 
     // Create user only if not logged in
     if (!this.context.authUser) {
-      if (this.state.newUser) {
-        await createUser(
-        this.state.userName,
-        this.state.userPassword
-        );
+      const { userName, userPassword } = this.state.fields;
+      if (this.state.isNewAccount) {
+        await createUser(userName, userPassword);
       } else {
-        await logInUser(
-        this.state.userName,
-        this.state.userPassword
-        );
+        await logInUser(userName, userPassword);
       }
     }
 
+    // Find drawing to add to
     const existingDrawing = await findDrawing();
-
     if (existingDrawing) {
       this.props.history.push(`/draw/${existingDrawing}`);
     } else {
@@ -95,7 +82,8 @@ class StartScreen extends React.Component {
   }
 
   render() {
-    const { userName, userPassword, pageFlipped, isSubmitting } = this.state;
+    const { pageFlipped, isNewAccount, isSubmitting } = this.state;
+    const { userName, userPassword } = this.state.fields;
     const { authLoading, authUser } = this.context;
     return (
       <div>
@@ -118,13 +106,12 @@ class StartScreen extends React.Component {
 
         <View isDark isBack isVspaced isVisible={pageFlipped}>
           <JoinForm
-            newUser={this.state.newUser}
-            isSubmitting={isSubmitting}
+            isNewAccount={isNewAccount}
             userName={userName}
             password={userPassword}
-            onChangeUserName={this.updateDisplayName}
-            onChangePassword={this.updatePassword}
-            handleSubmit={this.startGame}
+            onChange={this.handleChange}
+            onSubmit={this.startGame}
+            isSubmitting={isSubmitting}
           />
         </View>
       </div>

@@ -7,23 +7,22 @@ import Button from "../Button";
 function JoinForm({
   userName = "",
   password = "",
-  newUser,
-  onChangePassword,
-  onChangeUserName,
-  handleSubmit,
+  isNewAccount,
+  onChange,
+  onSubmit,
   isSubmitting
 }) {
   return (
     <div className="join-form">
-      <h1 className="--inverted">Ahoi!</h1>
+      <h1 className="--inverted">Ahoy!</h1>
       <p className="white">
-        {newUser ?
-          'You must be new here. Pick a name and a password!' :
-          'Log in and start drawing!'}
+        {isNewAccount
+          ? "You must be new here. Pick a name and a password!"
+          : "Log in and start drawing!"}
       </p>
       <form
         className="join-form__inner"
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         disabled={isSubmitting}
       >
         <Input
@@ -31,19 +30,17 @@ function JoinForm({
           type="text"
           placeholder="Enter name"
           value={userName}
-          onChange={onChangeUserName}
+          onChange={({ target }) => onChange("userName", target.value)}
         />
         <Input
           name="password"
           type="password"
           placeholder="Enter password"
           value={password}
-          onChange={onChangePassword}
+          onChange={({ target }) => onChange("userPassword", target.value)}
         />
         <Button type="submit" disabled={isSubmitting}>
-          {newUser ?
-            `I'm ready!` :
-            `Log in!`}
+          {isNewAccount ? `I'm ready!` : `Log in!`}
         </Button>
       </form>
     </div>
