@@ -5,7 +5,7 @@ import Rotater from "../components/Rotater";
 import Loader from "../components/Loader";
 import View from "../components/View";
 
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { pickBodyPart } from "../utilities/drawing";
 import { submitDrawing, getDrawingById } from "../firebase/drawings";
 
@@ -16,6 +16,7 @@ class DrawingScreen extends React.Component {
     this.state = {
       drawingData: {},
       bodyPart: "",
+      drawingSubmitted: false,
       isLoading: true
     };
   }
@@ -36,17 +37,18 @@ class DrawingScreen extends React.Component {
       isLoading: false
     });
     // Set the given bodyPart to inProgress so other people can't draw on the same part
-    this.inProgress = db.ref(
-      `drawings/${drawingId}/parts/${bodyPart}/inProgress`
-    );
-    this.inProgress.set(true);
+    this.drawingRef = db.ref(`drawings/${drawingId}/parts/${bodyPart}`);
+    this.drawingRef.child('inProgress').set(true);
+    this.drawingRef.child('uid').set(auth.currentUser.uid);
     // Remove inProgress status if user logs off without finishing
-    this.inProgress.onDisconnect().set(false);
+    this.drawingRef.child('inProgress').onDisconnect().set(false);
   }
 
   componentWillUnmount() {
-    // Remove inProgress status if user submits drawing or leaves the route
-    this.inProgress.set(false);
+    // Remove uid and inProgress if user leaves route without submitting
+    if (this.drawingRef && !this.state.drawingSubmitted) {
+      this.drawingRef.child('inProgress').set(false);
+    }
   }
 
   handleSubmit(lines) {
@@ -55,6 +57,7 @@ class DrawingScreen extends React.Component {
       lines: lines,
       bodyPart: this.state.bodyPart
     });
+    this.setState({drawingSubmitted: true});
     this.props.history.push("/thank-you");
   }
 
