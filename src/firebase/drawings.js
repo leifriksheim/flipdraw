@@ -12,7 +12,11 @@ export function submitDrawing({ drawingId, bodyPart, lines }) {
 }
 
 export async function findDrawing() {
-  const drawingsFromFirebase = await db.ref("activeDrawings").once("value");
+  // Only look for active drawings you haven't drawn yourself
+  const drawingsFromFirebase = await db.ref("activeDrawings")
+                               .orderByChild(auth.currentUser.uid)
+                               .equalTo(null)
+                               .once("value");
 
   const drawings = drawingsFromFirebase.val();
   if (drawings) {
@@ -56,8 +60,6 @@ export async function createNewDrawing() {
   });
 
   const key = newDrawing.key;
-
-  await db.ref(`activeDrawings/${key}`).set(true);
 
   return key;
 }
