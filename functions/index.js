@@ -47,6 +47,18 @@ exports.drawingInProgress = functions.database
     // Grab the current value of what was written to the Realtime Database.
     const drawingId = event.params.drawingId;
     const parts = event.data.val();
+    let uids = {};
+    // Dynamically add uid's as properties so we know who's drawing
+    // Should find a better method
+    if (parts.head.uid) {
+      uids[parts.head.uid] = true;
+    }
+    if (parts.body.uid) {
+      uids[parts.body.uid] = true;
+    }
+    if (parts.legs.uid) {
+      uids[parts.legs.uid] = true;
+    }
 
     // If all are finished or one is inProgress
     if (
@@ -62,6 +74,6 @@ exports.drawingInProgress = functions.database
       admin
         .database()
         .ref(`/activeDrawings/${drawingId}`)
-        .set(true);
+        .set(uids);
     }
   });
