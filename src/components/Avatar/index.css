@@ -23,3 +23,21 @@
   transform: scale(1);
   opacity: 1;
 }
+
+.avatar__notification {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: -10px;
+  background: red;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  color: #fff;
+}
+
+.avatar__notification.--visible {
+  display: block;
+}
